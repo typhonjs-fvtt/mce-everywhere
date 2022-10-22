@@ -1,0 +1,177 @@
+.editor {
+  background: var(--mce-everywhere-background, none);
+  border: var(--mce-everywhere-border, none);
+  border-radius: var(--mce-everywhere-border-radius, 0);
+  height: var(--mce-everywhere-height, 100%);
+  margin: var(--mce-everywhere-margin, 0);
+  width: var(--mce-everywhere-width, 100%);
+
+  /* For Firefox. */
+  scrollbar-width: thin;
+}
+
+.editor .editor-content {
+  color: var(--mce-everywhere-content-color, #000);
+  font-family: var(--mce-everywhere-content-font-family, "Signika");
+  font-size: var(--mce-everywhere-content-font-size, 10.5pt);
+  line-height: var(--mce-everywhere-content-line-height, 1.2);
+  padding: var(--mce-everywhere-content-padding, 3px 0 0 0);
+}
+
+/* Don't add an initial margin top to first paragraph element in `.editor-content`. */
+.editor .editor-content p:first-of-type {
+  margin-top: 0;
+}
+
+.editor div.tox-tinymce {
+  border-radius: 0;
+  font-size: 10.5pt;
+  padding: var(--mce-everywhere-content-padding, 0);
+}
+
+.editor .tox:not(.tox-tinymce-inline) .tox-editor-header {
+  background: none;
+  box-shadow: unset;
+  transition: unset;
+  padding: 0;
+  width: var(--mce-everywhere-toolbar-width, 100%);
+}
+
+.editor .tox.tox-tinymce .tox-toolbar-overlord {
+  background: none;
+  box-shadow: var(--mce-everywhere-toolbar-box-shadow, 0 2px 2px -2px rgb(34 47 62 / 10%), 0 8px 8px -4px rgb(34 47 62 / 7%));
+  margin-bottom: 0.25em;
+
+  transition: box-shadow 500ms ease-in-out;
+}
+
+.editor.tinymce .tox.tox-tinymce .tox-toolbar__primary {
+  background: var(--mce-everywhere-toolbar-background, rgba(0, 0, 0, 0.1));
+  border-radius: var(--mce-everywhere-toolbar-border-radius, 6px);
+}
+
+.editor .tox.tox-tinymce .tox-toolbar__group {
+  width: auto;
+  padding: var(--mce-everywhere-toolbar-padding, 0 2px);
+}
+
+.editor .tox.tox-tinymce:not([dir=rtl]) .tox-toolbar__group:not(:last-of-type) {
+  border-right: var(--mce-everywhere-toolbar-separator-border, 1px solid var(--color-text-light-3, #ccc));
+}
+
+.editor .tox.tox-tinymce .tox-tbtn {
+  background: var(--mce-everywhere-toolbar-button-background, none);
+  color: var(--mce-everywhere-toolbar-button-color, var(--color-text-dark-primary, #191813));
+  padding: 0;
+  margin: 2px 0;
+  min-width: 34px;
+  width: fit-content;
+}
+
+.editor .tox.tox-tinymce .tox-tbtn svg {
+  fill: var(--mce-everywhere-toolbar-button-color, var(--color-text-dark-primary, #191813));
+  margin-right: auto;
+}
+
+.editor .tox.tox-tinymce .tox-tbtn.tox-tbtn--disabled {
+  color: var(--mce-everywhere-toolbar-button-disabled-color, rgba(34, 47, 62, .5));
+}
+
+.editor .tox.tox-tinymce .tox-tbtn.tox-tbtn--disabled svg {
+  fill: var(--mce-everywhere-toolbar-button-disabled-color, rgba(34, 47, 62, .5));
+}
+
+.editor .tox.tox-tinymce .tox-tbtn:hover:not(.tox-tbtn--disabled) {
+  background: var(--mce-everywhere-toolbar-button-background-hover, var(--color-hover-bg, #f0f0e0));
+}
+
+.editor .tox.tox-tinymce .tox-tbtn.tox-tbtn--enabled:not(.tox-tbtn--disabled) {
+  background: var(--mce-everywhere-toolbar-button-background-hover, var(--color-hover-bg, #f0f0e0));
+}
+
+/* Max width for all select buttons */
+.editor .tox.tox-tinymce .tox-tbtn--select {
+  max-width: 7em;
+}
+
+/* Explicit size for font format select button */
+.editor .tox.tox-tinymce .tox-tbtn--select[title="Fonts"] {
+  width: 7em;
+}
+
+/* Explicit size for font size select button */
+.editor .tox.tox-tinymce .tox-tbtn--select[title="Font sizes"] {
+  width: 4.5em;
+}
+
+/* Handles TMCE select button non-active background */
+.editor .tox.tox-tinymce .tox-tbtn--select {
+  background: var(--mce-everywhere-toolbar-select-background, var(--color-control-bg, #d9d8c8));
+}
+
+/* Handles TMCE select button hovered background */
+.editor .tox.tox-tinymce .tox-tbtn--select:hover:not(.tox-tbtn--disabled) {
+  background: var(--mce-everywhere-toolbar-select-background-hover, var(--color-hover-bg, #f0f0e0));
+}
+
+/* Handles TMCE select button active background */
+.editor .tox.tox-tinymce .tox-tbtn--select.tox-tbtn--active:not(.tox-tbtn--disabled) {
+  background: var(--mce-everywhere-toolbar-select-background-hover, var(--color-hover-bg, #f0f0e0));
+}
+
+/* Handles the TMCE select svg container giving a width that works with margin-right: auto for consistent space */
+.editor .tox.tox-tinymce .tox-tbtn .tox-tbtn__select-chevron {
+  max-width: 13px;
+  margin-right: 2px;
+  width: fit-content;
+}
+
+/* Handles the select chevron inactive color */
+.editor .tox.tox-tinymce .tox-tbtn .tox-tbtn__select-chevron svg {
+  fill: var(--mce-everywhere-toolbar-chevron-inactive, var(--color-text-light-7, #888));
+}
+
+/* Handles the select chevron active hover color */
+.editor .tox.tox-tinymce .tox-tbtn:not(.tox-tbtn--disabled):hover .tox-tbtn__select-chevron svg {
+  fill: var(--mce-everywhere-toolbar-chevron-active, var(--color-text-dark-primary, #191813));
+}
+
+/* Handles the select chevron menu active color */
+.editor .tox.tox-tinymce .tox-tbtn--active:not(.tox-tbtn--disabled) .tox-tbtn__select-chevron svg {
+  fill: var(--mce-everywhere-toolbar-chevron-active, var(--color-text-dark-primary, #191813));
+}
+
+/* Handles this components toolbar select button width */
+.editor .tox.tox-tinymce .tox-tbtn--bespoke .tox-tbtn__select-label {
+  margin-right: auto;
+  max-width: 7em;
+  width: 7em;
+}
+
+/* The following styles affect the global / all modules TinyMCE auxiliary menus --------------------------------*/
+
+/**
+ * Handles the "global" TinyMCE auxiliary toolbar select button width; this is displayed separately in the DOM
+ * and this CSS will affect all TinyMCE auxiliary toolbar select buttons, but it is better.
+ */
+.tox.tox-tinymce-aux .tox-tbtn--bespoke .tox-tbtn__select-label {
+  max-width: 7em;
+  width: fit-content;
+}
+
+.tox.tox-tinymce-aux .tox-collection--list .tox-collection__item--active {
+  background: var(--mce-everywhere-menu-item-background-active, #dee0e2);
+}
+
+/* Removes TMCE highlight for focused button in overflow menu. IE avoid automatic focus of first button */
+.tox.tox-tinymce-aux .tox-tbtn:focus {
+  background: var(--mce-everywhere-menu-item-background-active, #dee0e2);
+}
+
+.tox.tox-tinymce-aux .tox-tbtn:hover:not(.tox-tbtn--disabled) {
+  background: var(--mce-everywhere-menu-item-background-active, #dee0e2);
+}
+
+.tox.tox-tinymce-aux .tox-tbtn.tox-tbtn--enabled:not(.tox-tbtn--disabled) {
+  background: var(--mce-everywhere-menu-item-background-active, #dee0e2);
+}

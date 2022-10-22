@@ -1,0 +1,43 @@
+{
+  "id": "mce-everywhere",
+  "title": "TinyMCE Everywhere!",
+  "description": "Provides a module that enables TinyMCE for all editors.",
+  "author": "Michael Leahy (TyphonJS) - MLeahy#4299",
+  "authors": [
+    {
+      "name": "Michael Leahy (TyphonJS) - MLeahy#4299",
+      "url": "https://www.typhonjs.io"
+    }
+  ],
+  "url": "https://github.com/typhonjs-fvtt/mce-everywhere",
+  "readme": "https://github.com/typhonjs-fvtt/mce-everywhere/blob/master/README.md",
+  "bugs": "https://github.com/typhonjs-fvtt/mce-everywhere/issues",
+  "changelog": "https://github.com/typhonjs-fvtt/mce-everywhere/releases/latest/",
+  "version": "0.0.0",
+  "compatibility": {
+    "minimum": "10",
+    "maximum": "10",
+    "verified": "10"
+  },
+  "esmodules": [
+    "src/mce-everywhere.js"
+  ],
+  "styles": [
+    "css/mce-everywhere.css"
+  ],
+  "relationships": {
+  },
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "socket": false,
+  "manifest": "https://github.com/typhonjs-fvtt/mce-everywhere/releases/latest/download/module.json",
+  "download": "https://github.com/typhonjs-fvtt/mce-everywhere/releases/download/0.0.0/module.zip",
+  "protected": false,
+  "coreTranslation": false,
+  "library": true
+}

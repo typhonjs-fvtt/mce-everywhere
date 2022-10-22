@@ -1,0 +1,24 @@
+{
+  "name": "mce-everywhere",
+  "description": "Provides a module that enables TinyMCE for all editors.",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "author": "Michael Leahy <support@typhonjs.io> (https://github.com/typhonrt)",
+  "contributors": [
+    "Michael Leahy <support@typhonjs.io> (https://github.com/typhonrt)"
+  ],
+  "dependencies": {
+  },
+  "devDependencies": {
+    "@typhonjs-config/eslint-config": "^0.3.0",
+    "@typhonjs-fvtt/eslint-config-foundry.js": "^0.8.0",
+    "eslint": "^8"
+  },
+  "browserslist": [">5%", "not IE 11"],
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite",
+    "eslint": "eslint ."
+  }
+}
