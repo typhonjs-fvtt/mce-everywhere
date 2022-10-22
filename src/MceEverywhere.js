@@ -1,8 +1,8 @@
-import { MCEImpl }         from './MCEImpl.js';
-import { TinyMCEHelper }   from './TinyMCEHelper.js';
-import { FontManager }     from './FontManager.js';
+import { MceImpl }      from './MCEImpl.js';
+import { MceConfig }    from './MceConfig.js';
+import { FontManager }  from './FontManager.js';
 
-class MceEverywhere
+export class MceEverywhere
 {
    static init()
    {
@@ -22,10 +22,10 @@ class MceEverywhere
 
       TextEditor.create = async (options, content) =>
       {
-         // const config = TinyMCEHelper.configStandard();
-         const config = TinyMCEHelper.configExtra();
+         // const config = MceConfig.configStandard();
+         const config = MceConfig.configExtra();
 
-         const { fonts, fontFormats } = MCEImpl.getFontData();
+         const { fonts, fontFormats } = MceImpl.getFontData();
 
          options = {
             ...config,
@@ -34,7 +34,7 @@ class MceEverywhere
             plugins: config.plugins,
             toolbar: options.toolbar ? options.toolbar : config.toolbar,
             font_family_formats: fontFormats,
-            paste_preprocess: (unused, args) => MCEImpl.pastePreprocess(newEditor, args),
+            paste_preprocess: (unused, args) => MceImpl.pastePreprocess(newEditor, args),
             engine: 'tinymce',
          };
 
@@ -68,7 +68,7 @@ class MceEverywhere
          // Prepends the CSS variable editor content styles to any existing user defined styles to the `content_style`
          // MCE config parameter. This automatically makes sure the properties are the same between the `.editor-content`
          // and the body of the MCE IFrame.
-         options.content_style = `${MCEImpl.setMCEConfigContentStyle(options.target)} ${options.content_style}`;
+         options.content_style = `${MceImpl.setMCEConfigContentStyle(options.target)} ${options.content_style}`;
 
          const newEditor = await oldFn.call(TextEditor, options, content);
 
@@ -87,5 +87,3 @@ class MceEverywhere
       };
    }
 }
-
-Hooks.on('init', MceEverywhere.init);

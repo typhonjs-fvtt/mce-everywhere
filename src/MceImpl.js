@@ -1,6 +1,6 @@
 import { FontManager }  from './FontManager.js';
 
-export class MCEImpl
+export class MceImpl
 {
    /**
     * Stores the CSS variable data that is inspected on the `.editor-content` div before the editor is active and

@@ -3,7 +3,7 @@
  *
  * Please see {@link CONFIG.TinyMCE} for the default Foundry options.
  */
-export class TinyMCEHelper
+export class MceConfig
 {
    /**
     * Provides the TJS super cool TinyMCE configuration options. These options are selected for increased media
@@ -56,7 +56,7 @@ export class TinyMCEHelper
             },
             formatgroup: {
                icon: 'format',
-               tooltip: 'Fonts',
+               tooltip: 'Font Options',
                items: `lineheight | forecolor backcolor`
             },
             insertgroup: {

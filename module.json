@@ -20,7 +20,7 @@
     "verified": "10"
   },
   "esmodules": [
-    "src/mce-everywhere.js"
+    "src/index.js"
   ],
   "styles": [
     "css/mce-everywhere.css"
