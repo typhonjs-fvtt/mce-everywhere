@@ -9,11 +9,11 @@ export class MceImpl
     * @type {object[]}
     */
    static #s_CSS_VARS_EDITOR = [
-      { variable: '--mce-everywhere-content-color', property: 'color', default: '#000' },
-      { variable: '--mce-everywhere-content-font-family', property: 'font-family', default: 'Signika' },
-      { variable: '--mce-everywhere-content-font-size', property: 'font-size', default: '10.5pt' },
-      { variable: '--mce-everywhere-content-line-height', property: 'line-height', default: '1.2' },
-      { variable: '--mce-everywhere-content-padding', property: 'padding', default: '3px 0 0 0' }
+      { property: 'color', default: '#000' },
+      { property: 'font-family', default: 'Signika' },
+      { property: 'font-size', default: '10.5pt' },
+      { property: 'line-height', default: '1.2' },
+      { property: 'padding', default: '3px 0 0 0' }
    ];
 
    /**
@@ -153,7 +153,7 @@ export class MceImpl
 
       for (const entry of this.#s_CSS_VARS_EDITOR)
       {
-         const currentPropertyValue = styles.getPropertyValue(entry.variable);
+         const currentPropertyValue = styles.getPropertyValue(entry.property);
          cssBodyInlineStyles[entry.property] = currentPropertyValue !== '' ? currentPropertyValue : entry.default;
       }
 

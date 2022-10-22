@@ -23,6 +23,23 @@
   margin-top: 0;
 }
 
+/* Override core styles for journal sheets -------------------------------------------------------------------------  */
+
+.sheet.journal-entry-page .window-content .editor.tinymce {
+  margin: 0;
+}
+
+.sheet.journal-entry-page .window-content .editor.tinymce .tox.tox-tinymce .tox-toolbar__primary {
+  padding: 0 0 0 0.5rem;
+  border-radius: 0;
+}
+
+.sheet.journal-entry-page .window-content .editor-content {
+  padding: 0 0 0 0.5rem;
+}
+
+/* Provide TinyMCE overrides to style the toolbar similar to ProseMirror editor ------------------------------------  */
+
 .editor div.tox-tinymce {
   border-radius: 0;
   font-size: 10.5pt;
