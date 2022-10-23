@@ -38,30 +38,28 @@ export class MceEverywhere
             engine: 'tinymce',
          };
 
-         const isJournalPage = options.target.classList.contains('journal-page-content');
+         const appEl = options.target.closest('[data-appid]');
 
-         let app;
+         if (!appEl)
+         {
+            console.warn(`TinyMCE Everywhere warning: Could not locate editor app element.`);
+            return;
+         }
+
+         const appId = appEl.dataset.appid;
+
+         if (!appId)
+         {
+            console.warn(`TinyMCE Everywhere warning: Could not locate editor app ID.`);
+            return;
+         }
+
+         const app = globalThis.ui.windows[appId];
+
+         const isJournalPage = options.target.classList.contains('journal-page-content');
 
          if (isJournalPage)
          {
-            const appEl = options.target.closest('[data-appid]');
-
-            if (!appEl)
-            {
-               console.warn(`TinyMCE Everywhere warning: Could not locate journal app element.`);
-               return;
-            }
-
-            const appId = appEl.dataset.appid;
-
-            if (!appId)
-            {
-               console.warn(`TinyMCE Everywhere warning: Could not locate journal app ID.`);
-               return;
-            }
-
-            app = globalThis.ui.windows[appId];
-
             if (!app)
             {
                console.warn(`TinyMCE Everywhere warning: Could not locate journal app.`);
@@ -87,32 +85,38 @@ export class MceEverywhere
          // // Set the initial selection; 'all', 'end', 'start'.
          // MCEImpl.setInitialSelection(editor, options.initialSelection, 'start')
 
-         // For journal page editing replace the save callback with a new one that invokes the original, but also
-         // closes the journal page editing app. This allows the app to be closed from the MCE save command.
-         if (isJournalPage && app)
+         if (app)
          {
-            // This a subtle modification that only comes into play when switching document sheets for the journal page
-            // editor. This matches the close function of JournalTextTinyMCESheet, but JournalTextPageSheet which is
-            // configured for the ProseMirror editor will call `destroy()` on the editor in the close function. This
-            // will delete / lose the current content when switching sheets. This is prevented by overriding close.
-            app.close = async (options = {}) =>
-            {
-               return JournalPageSheet.prototype.close.call(app, options);
-            };
+            // When clicking on the MCE IFrame bring the associated app to top.
+            newEditor.on('click', () => app.bringToTop());
 
-            const originalSaveCallbackFn = newEditor?.options?.get?.('save_onsavecallback');
-            if (typeof originalSaveCallbackFn === 'function')
+            // For journal page editing replace the save callback with a new one that invokes the original, but also
+            // closes the journal page editing app. This allows the app to be closed from the MCE save command.
+            if (isJournalPage)
             {
-               const newSaveCallbackFn = () =>
+               // This a subtle modification that only comes into play when switching document sheets for the journal page
+               // editor. This matches the close function of JournalTextTinyMCESheet, but JournalTextPageSheet which is
+               // configured for the ProseMirror editor will call `destroy()` on the editor in the close function. This
+               // will delete / lose the current content when switching sheets. This is prevented by overriding close.
+               app.close = async (options = {}) =>
                {
-                  setTimeout(() =>
-                  {
-                     originalSaveCallbackFn();
-                     app.close();
-                  }, 0);
-               }
+                  return JournalPageSheet.prototype.close.call(app, options);
+               };
 
-               newEditor?.options?.set?.('save_onsavecallback', newSaveCallbackFn);
+               const originalSaveCallbackFn = newEditor?.options?.get?.('save_onsavecallback');
+               if (typeof originalSaveCallbackFn === 'function')
+               {
+                  const newSaveCallbackFn = () =>
+                  {
+                     setTimeout(() =>
+                     {
+                        originalSaveCallbackFn();
+                        app.close();
+                     }, 0);
+                  }
+
+                  newEditor?.options?.set?.('save_onsavecallback', newSaveCallbackFn);
+               }
             }
          }
 
@@ -290,5 +294,10 @@ export class MceEverywhere
          // Invoke any existing setup function in the config object provided.
          if (typeof existingSetupFn === 'function') { existingSetupFn(editor); }
       };
+   }
+
+   #validateJournalTitle(titleEl)
+   {
+
    }
 }
