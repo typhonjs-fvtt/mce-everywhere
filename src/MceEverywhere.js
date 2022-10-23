@@ -98,7 +98,7 @@ export class MceEverywhere
          }
          else
          {
-            MceEverywhere.#setupNormal(options, content);
+            MceEverywhere.#setupNormal(options, editor, content);
          }
 
          /**
@@ -267,29 +267,20 @@ export class MceEverywhere
       if (typeof existingSetupFn === 'function') { existingSetupFn(editor); }
    }
 
-   static #setupNormal(options, content)
+   static #setupNormal(options, editor, content)
    {
-      // Store any existing setup function.
-      const existingSetupFn = options.setup;
-
-      options.setup = (editor) =>
+      // Close the editor on 'esc' key pressed; reset content; invoke the registered Foundry save callback with
+      // a deferral via setTimeout.
+      editor.on('keydown', ((event) =>
       {
-         // Close the editor on 'esc' key pressed; reset content; invoke the registered Foundry save callback with
-         // a deferral via setTimeout.
-         editor.on('keydown', ((event) =>
+         if (event.key === 'Escape')
          {
-            if (event.key === 'Escape')
-            {
-               editor.resetContent(content);
+            editor.resetContent(content);
 
-               const saveCallback = editor?.options?.get?.('save_onsavecallback');
-               if (typeof saveCallback === 'function') { setTimeout(() => saveCallback(), 0); }
-            }
-         }));
-
-         // Invoke any existing setup function in the config object provided.
-         if (typeof existingSetupFn === 'function') { existingSetupFn(editor); }
-      };
+            const saveCallback = editor?.options?.get?.('save_onsavecallback');
+            if (typeof saveCallback === 'function') { setTimeout(() => saveCallback(), 0); }
+         }
+      }));
    }
 
    /**
