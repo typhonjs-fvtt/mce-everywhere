@@ -311,7 +311,7 @@ export class MceConfig
     *
     * @type {string}
     */
-   static #s_DEFAULT_LINE_HEIGHT = '0.8 0.9 1 1.1 1.2 1.3 1.4 1.5 1.75 2';
+   static #s_DEFAULT_LINE_HEIGHT = '0.8 0.9 1 1.1 normal 1.2 1.3 1.4 1.5 1.75 2';
 
    /**
     * Provides a class list for the table dialog.

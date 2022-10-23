@@ -14,13 +14,8 @@
   color: var(--mce-everywhere-content-color, #000);
   font-family: var(--mce-everywhere-content-font-family, "Signika");
   font-size: var(--mce-everywhere-content-font-size, 10.5pt);
-  line-height: var(--mce-everywhere-content-line-height, 1.2);
+  line-height: var(--mce-everywhere-content-line-height, normal);
   padding: var(--mce-everywhere-content-padding, 3px 0 0 0);
-}
-
-/* Don't add an initial margin top to first paragraph element in `.editor-content`. */
-.editor .editor-content p:first-of-type {
-  margin-top: 0;
 }
 
 /* Override core styles for journal sheets -------------------------------------------------------------------------  */

@@ -3,16 +3,16 @@ import { FontManager }  from './FontManager.js';
 export class MceImpl
 {
    /**
-    * Stores the CSS variable data that is inspected on the `.editor-content` div before the editor is active and
+    * Stores the CSS properties that are inspected on the `.editor-content` div before the editor is active and
     * copies these values if set or the default values to the body element of the TinyMCE IFrame.
     *
     * @type {object[]}
     */
-   static #s_CSS_VARS_EDITOR = [
+   static #s_CSS_PROPS_EDITOR = [
       { property: 'color', default: '#000' },
       { property: 'font-family', default: 'Signika' },
       { property: 'font-size', default: '10.5pt' },
-      { property: 'line-height', default: '1.2' },
+      { property: 'line-height', default: 'normal' },
       { property: 'padding', default: '3px 0 0 0' }
    ];
 
@@ -34,9 +34,7 @@ export class MceImpl
       /**
        * @type {Object<FontFamilyDefinition>[]}
        */
-      const fonts = [
-         ...FontManager.getCoreDefinitions(),
-      ];
+      const fonts = FontManager.getCoreDefinitions();
 
       // Process font family definitions to create the font format string for TinyMCE. Remove duplicates.
 
@@ -151,13 +149,12 @@ export class MceImpl
       // Get current CSS variables for editor content and set it to inline styles for the MCE editor iFrame.
       const styles = globalThis.getComputedStyle(editorContentEl);
 
-      for (const entry of this.#s_CSS_VARS_EDITOR)
+      for (const entry of this.#s_CSS_PROPS_EDITOR)
       {
          const currentPropertyValue = styles.getPropertyValue(entry.property);
          cssBodyInlineStyles[entry.property] = currentPropertyValue !== '' ? currentPropertyValue : entry.default;
       }
 
-      return `body { ${Object.entries(cssBodyInlineStyles).map(
-       (array) => `${array[0]}: ${array[1]};`).join(';')} } p:first-of-type { margin-top: 0; }`;
+      return `body { ${Object.entries(cssBodyInlineStyles).map((array) => `${array[0]}: ${array[1]};`).join(';')} }`;
    }
 }
