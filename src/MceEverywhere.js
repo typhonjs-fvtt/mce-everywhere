@@ -38,6 +38,7 @@ export class MceEverywhere
             engine: 'tinymce',
          };
 
+         /** @type {HTMLDivElement} */
          const appEl = options.target.closest('[data-appid]');
 
          if (!appEl)
@@ -127,6 +128,7 @@ export class MceEverywhere
          return JournalPageSheet.prototype.close.call(app, options);
       };
 
+      /** @type {HTMLAnchorElement} */
       const appCloseEl = appEl.querySelector('header a.header-button.close');
       if (!appCloseEl)
       {
@@ -139,6 +141,7 @@ export class MceEverywhere
 
       let initialTitleValue;
 
+      /** @type {HTMLInputElement} */
       const headerTitleEl = appEl.querySelector('.journal-header input.title');
       if (!headerTitleEl)
       {
@@ -151,6 +154,7 @@ export class MceEverywhere
 
       let initialTitleLevel;
 
+      /** @type {HTMLSelectElement} */
       const headerSelectEl = appEl.querySelector('.journal-header select[name="title.level"]');
       if (!headerSelectEl)
       {
@@ -163,8 +167,8 @@ export class MceEverywhere
 
       let initialTitleDisplay;
 
+      /** @type {HTMLInputElement} */
       const headerDisplayEl = appEl.querySelector('.journal-header input[name="title.show"]');
-
       if (!headerDisplayEl)
       {
          console.warn(`TinyMCE Everywhere warning: Could not locate journal header title display element.`);
@@ -186,6 +190,7 @@ export class MceEverywhere
       {
          const newSaveCallbackFn = () =>
          {
+            // Abort saving if the header title is empty.
             if (!MceEverywhere.#validateJournalTitle(headerTitleEl)) { return; }
 
             setTimeout(() =>
@@ -245,6 +250,7 @@ export class MceEverywhere
             event.preventDefault();
             event.stopPropagation();
 
+            // Abort saving if the header title is empty.
             if (!MceEverywhere.#validateJournalTitle(headerTitleEl)) { return; }
 
             const saveCallback = editor?.options?.get?.('save_onsavecallback');
