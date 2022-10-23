@@ -38,9 +38,37 @@ export class MceEverywhere
             engine: 'tinymce',
          };
 
-         if (options.target.classList.contains('journal-page-content'))
+         const isJournalPage = options.target.classList.contains('journal-page-content');
+
+         let app;
+
+         if (isJournalPage)
          {
-            MceEverywhere.#setupJournal(options, content);
+            const appEl = options.target.closest('[data-appid]');
+
+            if (!appEl)
+            {
+               console.warn(`TinyMCE Everywhere warning: Could not locate journal app element.`);
+               return;
+            }
+
+            const appId = appEl.dataset.appid;
+
+            if (!appId)
+            {
+               console.warn(`TinyMCE Everywhere warning: Could not locate journal app ID.`);
+               return;
+            }
+
+            app = globalThis.ui.windows[appId];
+
+            if (!app)
+            {
+               console.warn(`TinyMCE Everywhere warning: Could not locate journal app.`);
+               return;
+            }
+
+            MceEverywhere.#setupJournal(options, content, appEl);
          }
          else
          {
@@ -59,6 +87,35 @@ export class MceEverywhere
          // // Set the initial selection; 'all', 'end', 'start'.
          // MCEImpl.setInitialSelection(editor, options.initialSelection, 'start')
 
+         // For journal page editing replace the save callback with a new one that invokes the original, but also
+         // closes the journal page editing app. This allows the app to be closed from the MCE save command.
+         if (isJournalPage && app)
+         {
+            // This a subtle modification that only comes into play when switching document sheets for the journal page
+            // editor. This matches the close function of JournalTextTinyMCESheet, but JournalTextPageSheet which is
+            // configured for the ProseMirror editor will call `destroy()` on the editor in the close function. This
+            // will delete / lose the current content when switching sheets. This is prevented by overriding close.
+            app.close = async (options = {}) =>
+            {
+               return JournalPageSheet.prototype.close.call(app, options);
+            };
+
+            const originalSaveCallbackFn = newEditor?.options?.get?.('save_onsavecallback');
+            if (typeof originalSaveCallbackFn === 'function')
+            {
+               const newSaveCallbackFn = () =>
+               {
+                  setTimeout(() =>
+                  {
+                     originalSaveCallbackFn();
+                     app.close();
+                  }, 0);
+               }
+
+               newEditor?.options?.set?.('save_onsavecallback', newSaveCallbackFn);
+            }
+         }
+
          /**
           * Load core fonts into TinyMCE IFrame.
           *
@@ -74,32 +131,8 @@ export class MceEverywhere
       };
    }
 
-   static #setupJournal(options, content)
+   static #setupJournal(options, content, appEl)
    {
-      const appEl = options.target.closest('[data-appid]');
-
-      if (!appEl)
-      {
-         console.warn(`TinyMCE Everywhere warning: Could not locate journal app element.`);
-         return;
-      }
-
-      const appId = appEl.dataset.appid;
-
-      if (!appId)
-      {
-         console.warn(`TinyMCE Everywhere warning: Could not locate journal app ID.`);
-         return;
-      }
-
-      const app = globalThis.ui.windows[appId];
-
-      if (!app)
-      {
-         console.warn(`TinyMCE Everywhere warning: Could not locate journal app.`);
-         return;
-      }
-
       const appCloseEl = appEl.querySelector('header a.header-button.close');
 
       if (!appCloseEl)
@@ -184,8 +217,6 @@ export class MceEverywhere
                if (headerDisplayEl && initialTitleDisplay) { headerDisplayEl.value = initialTitleDisplay; }
 
                if (typeof saveCallback === 'function') { saveCallback() }
-
-               app.close();
             }, 0);
          }
 
@@ -200,7 +231,10 @@ export class MceEverywhere
             closeActionFn(content);
          })
 
-         const closeKeyFn = (event) =>
+         // Add a keydown handler to the main app element to catch `Escape` and `Ctrl-s` to respectively close or
+         // save & close the journal page editor app. This allows the same behavior to control the entire journal page
+         // editor experience.
+         appEl.addEventListener('keydown', (event) =>
          {
             if (event.key === 'Escape')
             {
@@ -217,16 +251,16 @@ export class MceEverywhere
                setTimeout(() =>
                {
                   if (typeof saveCallback === 'function') { saveCallback() }
-                  app.close();
                }, 0);
             }
-         }
-
-         appEl.addEventListener('keydown', closeKeyFn);
+         });
 
          // Close the editor on 'esc' key pressed; reset content; invoke the registered Foundry save callback with
          // a deferral via setTimeout.
-         editor.on('keydown', closeKeyFn);
+         editor.on('keydown', (event) =>
+         {
+            if (event.key === 'Escape') { closeActionFn(content); }
+         });
 
          // Invoke any existing setup function in the config object provided.
          if (typeof existingSetupFn === 'function') { existingSetupFn(editor); }
