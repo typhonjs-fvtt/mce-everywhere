@@ -60,17 +60,16 @@ export class MceEverywhere
 
          if (isJournalPage)
          {
+            // Always have the MCE save button enabled for journal page editor. This allows the button to be clicked
+            // if other options in the page header are altered and not only the editor content.
+            options.save_enablewhendirty = false;
+
+            // Sanity case due to controlling the journal page editor app if it can't be found exit now.
             if (!app)
             {
                console.warn(`TinyMCE Everywhere warning: Could not locate journal app.`);
                return;
             }
-
-            MceEverywhere.#setupJournal(options, content, appEl);
-         }
-         else
-         {
-            MceEverywhere.#setupNormal(options, content);
          }
 
          // ------------------------------------------------------
@@ -80,7 +79,7 @@ export class MceEverywhere
          // and the body of the MCE IFrame.
          options.content_style = `${MceImpl.setMCEConfigContentStyle(options.target)} ${options.content_style}`;
 
-         const newEditor = await oldFn.call(TextEditor, options, content);
+         const editor = await oldFn.call(TextEditor, options, content);
 
          // // Set the initial selection; 'all', 'end', 'start'.
          // MCEImpl.setInitialSelection(editor, options.initialSelection, 'start')
@@ -88,36 +87,18 @@ export class MceEverywhere
          if (app)
          {
             // When clicking on the MCE IFrame bring the associated app to top.
-            newEditor.on('click', () => app.bringToTop());
+            editor.on('click', () => app.bringToTop());
+         }
 
-            // For journal page editing replace the save callback with a new one that invokes the original, but also
-            // closes the journal page editing app. This allows the app to be closed from the MCE save command.
-            if (isJournalPage)
-            {
-               // This a subtle modification that only comes into play when switching document sheets for the journal page
-               // editor. This matches the close function of JournalTextTinyMCESheet, but JournalTextPageSheet which is
-               // configured for the ProseMirror editor will call `destroy()` on the editor in the close function. This
-               // will delete / lose the current content when switching sheets. This is prevented by overriding close.
-               app.close = async (options = {}) =>
-               {
-                  return JournalPageSheet.prototype.close.call(app, options);
-               };
-
-               const originalSaveCallbackFn = newEditor?.options?.get?.('save_onsavecallback');
-               if (typeof originalSaveCallbackFn === 'function')
-               {
-                  const newSaveCallbackFn = () =>
-                  {
-                     setTimeout(() =>
-                     {
-                        originalSaveCallbackFn();
-                        app.close();
-                     }, 0);
-                  }
-
-                  newEditor?.options?.set?.('save_onsavecallback', newSaveCallbackFn);
-               }
-            }
+         // For journal page editing replace the save callback with a new one that invokes the original, but also
+         // closes the journal page editing app. This allows the app to be closed from the MCE save command.
+         if (isJournalPage)
+         {
+            MceEverywhere.#setupJournal(options, editor, content, app, appEl);
+         }
+         else
+         {
+            MceEverywhere.#setupNormal(options, content);
          }
 
          /**
@@ -131,22 +112,27 @@ export class MceEverywhere
             await FontManager.loadFonts({ document: editorIFrameEl.contentDocument, fonts });
          }
 
-         return newEditor;
+         return editor;
       };
    }
 
-   static #setupJournal(options, content, appEl)
+   static #setupJournal(options, editor, content, app, appEl)
    {
-      const appCloseEl = appEl.querySelector('header a.header-button.close');
+      // This a subtle modification that only comes into play when switching document sheets for the journal page
+      // editor. This matches the close function of JournalTextTinyMCESheet, but JournalTextPageSheet which is
+      // configured for the ProseMirror editor will call `destroy()` on the editor in the close function. This
+      // will delete / lose the current content when switching sheets. This is prevented by overriding close.
+      app.close = async (options = {}) =>
+      {
+         return JournalPageSheet.prototype.close.call(app, options);
+      };
 
+      const appCloseEl = appEl.querySelector('header a.header-button.close');
       if (!appCloseEl)
       {
          console.warn(`TinyMCE Everywhere warning: Could not locate app header close button.`);
          return;
       }
-
-      // Always have the MCE save button enabled.
-      options.save_enablewhendirty = false;
 
       // -------------------------------------------------------------------------------------------------------------
       // Collect initial values from all header elements in order to reset them to initial values on cancel action.
@@ -190,85 +176,95 @@ export class MceEverywhere
 
       // -------------------------------------------------------------------------------------------------------------
 
-      // Store any existing setup function.
-      const existingSetupFn = options.setup;
-
       /**
-       * TinyMCE setup callback to further configure editor for key handling and app close control.
+       * In the case of the journal page editor on save close the associated app.
        *
-       * Also loads the Foundry v10+ system fonts into MCE IFrame / copy and copies essential `editor-content`
-       * parameters.
-       *
-       * @param {TinyMCE.Editor} editor -
+       * @type {Function}
        */
-      options.setup = (editor) =>
+      const originalSaveCallbackFn = editor?.options?.get?.('save_onsavecallback');
+      if (typeof originalSaveCallbackFn === 'function')
       {
-         /**
-          * Resets all journal page data to initial values before closing app.
-          *
-          * @param {string} content - Original content.
-          */
-         const closeActionFn = (content) =>
+         const newSaveCallbackFn = () =>
          {
-            const saveCallback = editor?.options?.get?.('save_onsavecallback');
-
-            editor.resetContent(content);
+            if (!MceEverywhere.#validateJournalTitle(headerTitleEl)) { return; }
 
             setTimeout(() =>
             {
-               if (headerTitleEl && initialTitleValue) { headerTitleEl.value = initialTitleValue; }
-               if (headerSelectEl && initialTitleLevel) { headerSelectEl.value = initialTitleLevel; }
-               if (headerDisplayEl && initialTitleDisplay) { headerDisplayEl.value = initialTitleDisplay; }
-
-               if (typeof saveCallback === 'function') { saveCallback() }
+               originalSaveCallbackFn();
+               app.close();
             }, 0);
          }
 
-         // Override app header close button by adding handler for 'pointerdown' which acts before the 'click'
-         // event of Foundry core. Invoke the close action function reversing any changes.
-         appCloseEl.addEventListener('pointerdown', (event) =>
+         editor?.options?.set?.('save_onsavecallback', newSaveCallbackFn);
+      }
+
+      /**
+       * Resets all journal page data to initial values before closing app.
+       *
+       * @param {string} content - Original content.
+       */
+      const closeActionFn = (content) =>
+      {
+         const saveCallback = editor?.options?.get?.('save_onsavecallback');
+
+         editor.resetContent(content);
+
+         setTimeout(() =>
          {
-            // Stop default close handler from triggering.
+            if (headerTitleEl && initialTitleValue) { headerTitleEl.value = initialTitleValue; }
+            if (headerSelectEl && initialTitleLevel) { headerSelectEl.value = initialTitleLevel; }
+            if (headerDisplayEl && initialTitleDisplay) { headerDisplayEl.value = initialTitleDisplay; }
+
+            if (typeof saveCallback === 'function') { saveCallback() }
+         }, 0);
+      }
+
+      // Override app header close button by adding handler for 'pointerdown' which acts before the 'click'
+      // event of Foundry core. Invoke the close action function reversing any changes.
+      appCloseEl.addEventListener('pointerdown', (event) =>
+      {
+         // Stop default close handler from triggering.
+         event.preventDefault();
+         event.stopPropagation();
+
+         closeActionFn(content);
+      })
+
+      // Add a keydown handler to the main app element to catch `Escape` and `Ctrl-s` to respectively close or
+      // save & close the journal page editor app. This allows the same behavior to control the entire journal page
+      // editor experience.
+      appEl.addEventListener('keydown', (event) =>
+      {
+         if (event.key === 'Escape')
+         {
+            closeActionFn(content);
+         }
+         else if (event.key === 's' && (event.ctrlKey || event.metaKey))
+         {
+            // Stop browser save dialog from appearing.
             event.preventDefault();
             event.stopPropagation();
 
-            closeActionFn(content);
-         })
+            if (!MceEverywhere.#validateJournalTitle(headerTitleEl)) { return; }
 
-         // Add a keydown handler to the main app element to catch `Escape` and `Ctrl-s` to respectively close or
-         // save & close the journal page editor app. This allows the same behavior to control the entire journal page
-         // editor experience.
-         appEl.addEventListener('keydown', (event) =>
-         {
-            if (event.key === 'Escape')
+            const saveCallback = editor?.options?.get?.('save_onsavecallback');
+
+            setTimeout(() =>
             {
-               closeActionFn(content);
-            }
-            else if (event.key === 's' && (event.ctrlKey || event.metaKey))
-            {
-               // Stop browser save dialog from appearing.
-               event.preventDefault();
-               event.stopPropagation();
+               if (typeof saveCallback === 'function') { saveCallback() }
+            }, 0);
+         }
+      });
 
-               const saveCallback = editor?.options?.get?.('save_onsavecallback');
+      // Close the editor on 'esc' key pressed; reset content; invoke the registered Foundry save callback with
+      // a deferral via setTimeout.
+      editor.on('keydown', (event) =>
+      {
+         if (event.key === 'Escape') { closeActionFn(content); }
+      });
 
-               setTimeout(() =>
-               {
-                  if (typeof saveCallback === 'function') { saveCallback() }
-               }, 0);
-            }
-         });
-
-         // Close the editor on 'esc' key pressed; reset content; invoke the registered Foundry save callback with
-         // a deferral via setTimeout.
-         editor.on('keydown', (event) =>
-         {
-            if (event.key === 'Escape') { closeActionFn(content); }
-         });
-
-         // Invoke any existing setup function in the config object provided.
-         if (typeof existingSetupFn === 'function') { existingSetupFn(editor); }
-      };
+      // Invoke any existing setup function in the config object provided.
+      if (typeof existingSetupFn === 'function') { existingSetupFn(editor); }
    }
 
    static #setupNormal(options, content)
@@ -296,8 +292,22 @@ export class MceEverywhere
       };
    }
 
-   #validateJournalTitle(titleEl)
+   /**
+    * Validates that the journal page title is not empty and posts a warning message if so.
+    *
+    * @param {HTMLInputElement} headerTitleEl -
+    *
+    * @returns {boolean} Whether the journal page title is valid.
+    */
+   static #validateJournalTitle(headerTitleEl)
    {
+      const isValid = headerTitleEl.value.length >= 1;
 
+      if (!isValid)
+      {
+         globalThis.ui.notifications.warn('mce-everywhere.journal.validation', { localize: true });
+      }
+
+      return isValid;
    }
 }

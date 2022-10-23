@@ -1,2 +1,7 @@
 {
+  "mce-everywhere": {
+    "journal": {
+      "validation": "The journal page title is required to be a non-empty string."
+    }
+  }
 }
