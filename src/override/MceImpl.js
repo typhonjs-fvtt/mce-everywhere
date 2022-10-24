@@ -1,6 +1,6 @@
-import { FontManager }           from './FontManager.js';
+import { FontManager }           from '../model/FontManager.js';
 
-import { constants, settings }   from './constants.js';
+import { constants, settings }   from '../constants.js';
 
 export class MceImpl
 {

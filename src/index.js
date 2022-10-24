@@ -1,5 +1,5 @@
-import { GameSettings }          from './GameSettings.js';
-import { MceEverywhere }         from './MceEverywhere.js';
+import { GameSettings }          from './model/GameSettings.js';
+import { MceEverywhere }         from './override/MceEverywhere.js';
 
 import { constants, settings }   from './constants.js';
 
@@ -12,6 +12,8 @@ Hooks.on('init', () =>
    // Append main stylesheet to `head`.
    if (enabled)
    {
+      console.log('TinyMCE Everywhere! (mce-everywhere) | Initializing');
+
       MceEverywhere.init();
 
       document.getElementsByTagName('head')[0].append(Object.assign(document.createElement('link'), {

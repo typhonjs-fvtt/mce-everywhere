@@ -1,8 +1,8 @@
-import { MceImpl }               from './MCEImpl.js';
+import { MceImpl }               from './MceImpl.js';
 import { MceConfig }             from './MceConfig.js';
-import { FontManager }           from './FontManager.js';
+import { FontManager }           from '../model/FontManager.js';
 
-import { constants, settings }   from "./constants.js";
+import { constants, settings }   from '../constants.js';
 
 export class MceEverywhere
 {
@@ -24,7 +24,12 @@ export class MceEverywhere
          // By default, always replace editor engine;
          if (typeof args?.[1]?.hash === 'object') { args[1].hash.engine = 'tinymce'; }
 
-         return origHandlebarsEditorFn.call(HandlebarsHelpers, ...args);
+         const result = origHandlebarsEditorFn.call(HandlebarsHelpers, ...args);
+
+         // Add `mce-everywhere class` so that the module styles targets an explicit class.
+         result.string = result.string.replace('<div class="editor">', '<div class="editor mce-everywhere">')
+
+         return result;
       };
 
       // Register the new helper.
