@@ -1,4 +1,6 @@
-import { FontManager }  from './FontManager.js';
+import { FontManager }           from './FontManager.js';
+
+import { constants, settings }   from './constants.js';
 
 export class MceImpl
 {
@@ -93,18 +95,13 @@ export class MceImpl
    }
 
    /**
-    * Sets the initial selection based on `options.initialSelection`.
+    * Sets the initial cursor selection based on `cursor` game setting.
     *
     * @param {TinyMCE.Editor} editor - MCE editor.
-    *
-    * @param {string}   initialSelection - Initial selection option.
-    *
-    * @param {string}   defaultValue - Default value if initialSelection is invalid.
     */
-   static setInitialSelection(editor, initialSelection, defaultValue)
+   static setCursorLocation(editor)
    {
-      const type = initialSelection === 'all' || initialSelection === 'end' || initialSelection === 'start' ?
-       initialSelection : defaultValue;
+      const type = game.settings.get(constants.moduleId, settings.cursor);
 
       const selection = editor.selection;
 
@@ -116,10 +113,6 @@ export class MceImpl
 
       switch (type)
       {
-         case 'all':
-            selection.select(bodyEl, true);
-            break;
-
          case 'end':
             selection.select(bodyEl, true);
             selection.collapse(false);

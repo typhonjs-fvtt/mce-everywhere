@@ -22,11 +22,6 @@
   "esmodules": [
     "src/index.js"
   ],
-  "styles": [
-    "css/mce-everywhere.css"
-  ],
-  "relationships": {
-  },
   "languages": [
     {
       "lang": "en",

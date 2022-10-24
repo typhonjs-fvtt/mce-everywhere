@@ -1,6 +1,8 @@
-import { MceImpl }      from './MCEImpl.js';
-import { MceConfig }    from './MceConfig.js';
-import { FontManager }  from './FontManager.js';
+import { MceImpl }               from './MCEImpl.js';
+import { MceConfig }             from './MceConfig.js';
+import { FontManager }           from './FontManager.js';
+
+import { constants, settings }   from "./constants.js";
 
 export class MceEverywhere
 {
@@ -10,7 +12,17 @@ export class MceEverywhere
 
       const newEditorFn = (...args) =>
       {
-         args[1].hash.engine = 'tinymce';
+         const journalEnabled = game.settings.get(constants.moduleId, settings.journalenabled);
+
+         // If the MCE Everywhere is disabled for journals respect the existing engine parameter.
+         if (!journalEnabled && args?.[1]?.hash?.class === 'journal-page-content')
+         {
+            return oldEditorFn.call(HandlebarsHelpers, ...args);
+         }
+
+         // By default, always replace editor engine;
+         if (typeof args?.[1]?.hash === 'object') { args[1].hash.engine = 'tinymce'; }
+
          return oldEditorFn.call(HandlebarsHelpers, ...args);
       };
 
@@ -22,8 +34,16 @@ export class MceEverywhere
 
       TextEditor.create = async (options, content) =>
       {
-         // const config = MceConfig.configStandard();
-         const config = MceConfig.configExtra();
+         const journalEnabled = game.settings.get(constants.moduleId, settings.journalenabled);
+
+         // If MCE Everywhere is disabled for journal page editing
+         if (!journalEnabled && options.target.classList.contains('journal-page-content') &&
+          options.engine === 'prosemirror')
+         {
+            return oldFn.call(TextEditor, options, content);
+         }
+
+         const config = MceConfig.configExtra({ help: game.settings.get(constants.moduleId, settings.help) });
 
          const { fonts, fontFormats } = MceImpl.getFontData();
 
@@ -82,8 +102,8 @@ export class MceEverywhere
 
          const editor = await oldFn.call(TextEditor, options, content);
 
-         // // Set the initial selection; 'all', 'end', 'start'.
-         // MCEImpl.setInitialSelection(editor, options.initialSelection, 'start')
+         // Set the initial cursor location; 'start', 'end'.
+         MceImpl.setCursorLocation(editor);
 
          if (app)
          {

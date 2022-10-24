@@ -2,6 +2,26 @@
   "mce-everywhere": {
     "journal": {
       "validation": "The journal page title is required to be a non-empty string."
+    },
+    "settings": {
+      "clientenabled": {
+        "name": "Enable 'TinyMCE Everywhere!':",
+        "hint": "Provides a client setting to enable / disable 'TinyMCE Everywhere!' for a specific user."
+      },
+      "cursor": {
+        "name": "Editor cursor location:",
+        "hint": "Provides a world setting to place the cursor at the start or end of the editor when initialized.",
+        "start": "Start",
+        "end": "End"
+      },
+      "help": {
+        "name": "Editor toolbar help:",
+        "hint": "Provides a world setting to enable a help button in the editor toolbar for users unfamiliar w/ TinyMCE."
+      },
+      "journalenabled": {
+        "name": "Enable for journal editing:",
+        "hint": "Provides a world setting to enable / disable 'TinyMCE Everywhere!' in journal page editing. When enabled all text page sheets use TinyMCE."
+      }
     }
   }
 }
