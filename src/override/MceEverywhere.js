@@ -23,7 +23,17 @@ export class MceEverywhere
          }
 
          // By default, always replace editor engine;
-         if (typeof args?.[1]?.hash === 'object') { args[1].hash.engine = 'tinymce'; }
+         if (typeof args?.[1]?.hash === 'object')
+         {
+            // Don't enable mceeverywhere styles by exiting early if mceeverywhere is false.
+            const mceeverywhere = typeof args[1].hash.mceeverywhere === 'boolean' ? args[1].hash.mceeverywhere : true;
+            if ((args[1].hash.engine === 'tinymce' || args[1].hash.engine === void 0) && !mceeverywhere)
+            {
+               return origHandlebarsEditorFn.call(HandlebarsHelpers, ...args);
+            }
+
+            args[1].hash.engine = 'tinymce';
+         }
 
          const result = origHandlebarsEditorFn.call(HandlebarsHelpers, ...args);
 
@@ -51,21 +61,6 @@ export class MceEverywhere
             return origTextEditorCreateFn.call(TextEditor, options, content);
          }
 
-         const config = MceConfig.configExtra({ help: game.settings.get(constants.moduleId, settings.help) });
-
-         const { fonts, fontFormats } = MceImpl.getFontData();
-
-         options = {
-            ...config,
-            ...options,
-            style_formats: config.style_formats,
-            plugins: config.plugins,
-            toolbar: options.toolbar ? options.toolbar : config.toolbar,
-            font_family_formats: fontFormats,
-            paste_preprocess: (unused, args) => MceImpl.pastePreprocess(editor, args),
-            engine: 'tinymce',
-         };
-
          /** @type {HTMLDivElement} */
          const appEl = options.target.closest('[data-appid]');
 
@@ -84,6 +79,19 @@ export class MceEverywhere
          }
 
          const app = globalThis.ui.windows[appId];
+
+         const config = MceConfig.configExtra({ help: game.settings.get(constants.moduleId, settings.help) });
+
+         const { fonts, fontFormats } = MceImpl.getFontData();
+
+         options = {
+            ...config,
+            ...options,
+            style_formats: config.style_formats,
+            font_family_formats: options.font_family_formats ? options.font_family_formats : fontFormats,
+            paste_preprocess: (unused, args) => MceImpl.pastePreprocess(editor, args),
+            engine: 'tinymce',
+         };
 
          const isJournalPage = options.target.classList.contains('journal-page-content');
 
