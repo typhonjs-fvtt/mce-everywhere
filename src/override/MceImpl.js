@@ -148,6 +148,11 @@ export class MceImpl
          cssBodyInlineStyles[entry.property] = currentPropertyValue !== '' ? currentPropertyValue : entry.default;
       }
 
-      return `body { ${Object.entries(cssBodyInlineStyles).map((array) => `${array[0]}: ${array[1]};`).join(';')} }`;
+      // Custom table class for no alternating row color.
+      const tableNoBackground = 'table.tmce-nocolors { background: none; } table.tmce-nocolors thead, tr, td { ' +
+       'background: none; } table.tmce-nocolors tr:nth-child(even) { background: none; }';
+
+      return `body { ${Object.entries(cssBodyInlineStyles).map((array) => `${array[0]}: ${array[1]};`).join(';')} } ${
+       tableNoBackground}`;
    }
 }

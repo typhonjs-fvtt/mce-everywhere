@@ -13,7 +13,7 @@
   scrollbar-width: thin !important;  /* For Firefox. */
 }
 
-/* Override core styles for journal sheets -------------------------------------------------------------------------  */
+/* Override core styles for journal sheets. ------------------------------------------------------------------------  */
 
 .sheet.journal-entry-page .window-content .mce-everywhere {
   margin: 0 !important;
@@ -26,6 +26,28 @@
 
 .sheet.journal-entry-page .window-content .mce-everywhere .editor-content {
   padding: 0 0 0 0.5rem !important;
+}
+
+/* Provide a class option in table dialog to remove default table styles.-------------------------------------------  */
+
+.mce-everywhere table.tmce-nocolors {
+  background: none;
+  border: none;
+}
+
+.mce-everywhere table.tmce-nocolors thead {
+  background: none;
+  border: none;
+}
+
+.mce-everywhere table.tmce-nocolors tr {
+  background: none;
+  border: none;
+}
+
+.mce-everywhere table.tmce-nocolors td {
+  background: none;
+  border: none;
 }
 
 /* Provide TinyMCE overrides to style the toolbar similar to ProseMirror editor ------------------------------------  */
