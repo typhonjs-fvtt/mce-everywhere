@@ -8,7 +8,8 @@ export class MceEverywhere
 {
    static init()
    {
-      const oldEditorFn = HandlebarsHelpers.editor;
+      // Replace the original handlebars helper for editor helper to control engine parameter.
+      const origHandlebarsEditorFn = HandlebarsHelpers.editor;
 
       const newEditorFn = (...args) =>
       {
@@ -17,30 +18,31 @@ export class MceEverywhere
          // If the MCE Everywhere is disabled for journals respect the existing engine parameter.
          if (!journalEnabled && args?.[1]?.hash?.class === 'journal-page-content')
          {
-            return oldEditorFn.call(HandlebarsHelpers, ...args);
+            return origHandlebarsEditorFn.call(HandlebarsHelpers, ...args);
          }
 
          // By default, always replace editor engine;
          if (typeof args?.[1]?.hash === 'object') { args[1].hash.engine = 'tinymce'; }
 
-         return oldEditorFn.call(HandlebarsHelpers, ...args);
+         return origHandlebarsEditorFn.call(HandlebarsHelpers, ...args);
       };
 
-      Handlebars.registerHelper({
-         editor: newEditorFn
-      });
+      // Register the new helper.
+      Handlebars.registerHelper({ editor: newEditorFn });
 
-      const oldFn = TextEditor.create;
+      // Store the original `TextEditor.create` function.
+      const origTextEditorCreateFn = TextEditor.create;
 
+      // Hard override `TextEditor.create` to fully control the editor creation.
       TextEditor.create = async (options, content) =>
       {
          const journalEnabled = game.settings.get(constants.moduleId, settings.journalenabled);
 
-         // If MCE Everywhere is disabled for journal page editing
+         // If MCE Everywhere is disabled for journal page editing then simply call the original function
          if (!journalEnabled && options.target.classList.contains('journal-page-content') &&
           options.engine === 'prosemirror')
          {
-            return oldFn.call(TextEditor, options, content);
+            return origTextEditorCreateFn.call(TextEditor, options, content);
          }
 
          const config = MceConfig.configExtra({ help: game.settings.get(constants.moduleId, settings.help) });
@@ -100,7 +102,7 @@ export class MceEverywhere
          // and the body of the MCE IFrame.
          options.content_style = `${MceImpl.setMCEConfigContentStyle(options.target)} ${options.content_style}`;
 
-         const editor = await oldFn.call(TextEditor, options, content);
+         const editor = await origTextEditorCreateFn.call(TextEditor, options, content);
 
          // Set the initial cursor location; 'start', 'end'.
          MceImpl.setCursorLocation(editor);
