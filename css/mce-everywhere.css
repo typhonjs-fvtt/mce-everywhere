@@ -1,189 +1,190 @@
-.editor {
-  background: var(--mce-everywhere-background, none);
-  border: var(--mce-everywhere-border, none);
-  border-radius: var(--mce-everywhere-border-radius, 0);
-  height: var(--mce-everywhere-height, 100%);
-  margin: var(--mce-everywhere-margin, 0);
-  width: var(--mce-everywhere-width, 100%);
+/**
+ * Note: I absolutely don't want to use `!important`, but several game systems apply `!important` to game system styles.
+ * or have more specific selectors therefore sadly MCE Everywhere needs to use `!important` too... :( :( :(
+ */
 
-  /* For Firefox. */
-  scrollbar-width: thin;
+.mce-everywhere {
+  scrollbar-width: thin !important;  /* For Firefox. */
 }
 
-.editor .editor-content {
-  color: var(--mce-everywhere-content-color, #000);
-  font-family: var(--mce-everywhere-content-font-family, "Signika");
-  font-size: var(--mce-everywhere-content-font-size, 10.5pt);
-  line-height: var(--mce-everywhere-content-line-height, normal);
-  padding: var(--mce-everywhere-content-padding, 3px 0 0 0);
+.mce-everywhere .editor-content {
+  font-size: var(--mce-everywhere-content-font-size, 10.5pt) !important;
+
+  scrollbar-width: thin !important;  /* For Firefox. */
 }
 
 /* Override core styles for journal sheets -------------------------------------------------------------------------  */
 
-.sheet.journal-entry-page .window-content .editor.tinymce {
-  margin: 0;
+.sheet.journal-entry-page .window-content .mce-everywhere {
+  margin: 0 !important;
 }
 
-.sheet.journal-entry-page .window-content .editor.tinymce .tox.tox-tinymce .tox-toolbar__primary {
-  padding: 0 0 0 0.5rem;
-  border-radius: 0;
+.sheet.journal-entry-page .window-content .mce-everywhere .tox.tox-tinymce .tox-toolbar__primary {
+  padding: 0 0 0 0.5rem !important;
+  border-radius: 0 !important;
 }
 
-.sheet.journal-entry-page .window-content .editor-content {
-  padding: 0 0 0 0.5rem;
+.sheet.journal-entry-page .window-content .mce-everywhere .editor-content {
+  padding: 0 0 0 0.5rem !important;
 }
 
 /* Provide TinyMCE overrides to style the toolbar similar to ProseMirror editor ------------------------------------  */
 
-.editor div.tox-tinymce {
-  border-radius: 0;
-  font-size: 10.5pt;
-  padding: var(--mce-everywhere-content-padding, 0);
+.mce-everywhere .tox-tinymce {
+  border-radius: 0 !important;
+  font-size: 10.5pt !important;
+  padding: var(--mce-everywhere-content-padding, 0) !important;
+  height: 100% !important;  /* TODO: Evaluate on various game systems */
 }
 
-.editor .tox:not(.tox-tinymce-inline) .tox-editor-header {
-  background: none;
-  box-shadow: unset;
-  transition: unset;
-  padding: 0;
-  width: var(--mce-everywhere-toolbar-width, 100%);
+.mce-everywhere .tox:not(.tox-tinymce-inline) .tox-editor-header {
+  background: none !important;
+  box-shadow: unset !important;
+  transition: unset !important;
+  padding: 0 !important;
+  width: var(--mce-everywhere-toolbar-width, 100%) !important;
 }
 
-.editor .tox.tox-tinymce .tox-toolbar-overlord {
-  background: none;
-  box-shadow: var(--mce-everywhere-toolbar-box-shadow, 0 2px 2px -2px rgb(34 47 62 / 10%), 0 8px 8px -4px rgb(34 47 62 / 7%));
-  margin-bottom: 0.25em;
+.mce-everywhere .tox.tox-tinymce .tox-toolbar-overlord {
+  background: none !important;
+  box-shadow: var(--mce-everywhere-toolbar-box-shadow, 0 2px 2px -2px rgb(34 47 62 / 10%), 0 8px 8px -4px rgb(34 47 62 / 7%)) !important;
+  margin-bottom: 0.25em !important;
 
-  transition: box-shadow 500ms ease-in-out;
+  transition: box-shadow 500ms ease-in-out !important;
 }
 
-.editor.tinymce .tox.tox-tinymce .tox-toolbar__primary {
-  background: var(--mce-everywhere-toolbar-background, rgba(0, 0, 0, 0.1));
-  border-radius: var(--mce-everywhere-toolbar-border-radius, 6px);
+.mce-everywhere .tox.tox-tinymce .tox-toolbar__primary {
+  background: var(--mce-everywhere-toolbar-background, rgba(0, 0, 0, 0.1)) !important;
+  border-radius: var(--mce-everywhere-toolbar-border-radius, 6px) !important;
 }
 
-.editor .tox.tox-tinymce .tox-toolbar__group {
-  width: auto;
-  padding: var(--mce-everywhere-toolbar-padding, 0 2px);
+.mce-everywhere .tox.tox-tinymce .tox-toolbar__group {
+  width: auto !important;
+  padding: var(--mce-everywhere-toolbar-padding, 0 2px) !important;
 }
 
-.editor .tox.tox-tinymce:not([dir=rtl]) .tox-toolbar__group:not(:last-of-type) {
-  border-right: var(--mce-everywhere-toolbar-separator-border, 1px solid var(--color-text-light-3, #ccc));
+.mce-everywhere .tox.tox-tinymce:not([dir=rtl]) .tox-toolbar__group:not(:last-of-type) {
+  border-right: var(--mce-everywhere-toolbar-separator-border, 1px solid var(--color-text-light-3, #ccc)) !important;
 }
 
-.editor .tox.tox-tinymce .tox-tbtn {
-  background: var(--mce-everywhere-toolbar-button-background, none);
-  color: var(--mce-everywhere-toolbar-button-color, var(--color-text-dark-primary, #191813));
-  padding: 0;
-  margin: 2px 0;
-  min-width: 34px;
-  width: fit-content;
+.mce-everywhere .tox.tox-tinymce .tox-tbtn {
+  background: var(--mce-everywhere-toolbar-button-background, none) !important;
+  color: var(--mce-everywhere-toolbar-button-color, var(--color-text-dark-primary, #191813)) !important;
+  padding: 0 !important;
+  margin: 2px 0 !important;
+  min-width: 34px !important;
+  width: fit-content !important;
 }
 
-.editor .tox.tox-tinymce .tox-tbtn svg {
-  fill: var(--mce-everywhere-toolbar-button-color, var(--color-text-dark-primary, #191813));
-  margin-right: auto;
+.mce-everywhere .tox.tox-tinymce .tox-tbtn svg {
+  fill: var(--mce-everywhere-toolbar-button-color, var(--color-text-dark-primary, #191813)) !important;
+  margin-right: auto !important;
 }
 
-.editor .tox.tox-tinymce .tox-tbtn.tox-tbtn--disabled {
-  color: var(--mce-everywhere-toolbar-button-disabled-color, rgba(34, 47, 62, .5));
+.mce-everywhere .tox.tox-tinymce .tox-tbtn.tox-tbtn--disabled {
+  color: var(--mce-everywhere-toolbar-button-disabled-color, rgba(34, 47, 62, .5)) !important;
 }
 
-.editor .tox.tox-tinymce .tox-tbtn.tox-tbtn--disabled svg {
-  fill: var(--mce-everywhere-toolbar-button-disabled-color, rgba(34, 47, 62, .5));
+.mce-everywhere .tox.tox-tinymce .tox-tbtn.tox-tbtn--disabled svg {
+  fill: var(--mce-everywhere-toolbar-button-disabled-color, rgba(34, 47, 62, .5)) !important;
 }
 
-.editor .tox.tox-tinymce .tox-tbtn:hover:not(.tox-tbtn--disabled) {
-  background: var(--mce-everywhere-toolbar-button-background-hover, var(--color-hover-bg, #f0f0e0));
+.mce-everywhere .tox.tox-tinymce .tox-tbtn:hover:not(.tox-tbtn--disabled) {
+  background: var(--mce-everywhere-toolbar-button-background-hover, var(--color-hover-bg, #f0f0e0)) !important;
 }
 
-.editor .tox.tox-tinymce .tox-tbtn.tox-tbtn--enabled:not(.tox-tbtn--disabled) {
-  background: var(--mce-everywhere-toolbar-button-background-hover, var(--color-hover-bg, #f0f0e0));
+.mce-everywhere .tox.tox-tinymce .tox-tbtn.tox-tbtn--enabled:not(.tox-tbtn--disabled) {
+  background: var(--mce-everywhere-toolbar-button-background-hover, var(--color-hover-bg, #f0f0e0)) !important;
+}
+
+/* Specifically for PF2E game system */
+.mce-everywhere .tox.tox-tinymce .tox-tbtn .tox-icon {
+  width: auto !important;
 }
 
 /* Max width for all select buttons */
-.editor .tox.tox-tinymce .tox-tbtn--select {
-  max-width: 7em;
+.mce-everywhere .tox.tox-tinymce .tox-tbtn--select {
+  max-width: 7em !important;
 }
 
 /* Explicit size for font format select button */
-.editor .tox.tox-tinymce .tox-tbtn--select[title="Fonts"] {
-  width: 7em;
+.mce-everywhere .tox.tox-tinymce .tox-tbtn--select[title="Fonts"] {
+  width: 7em !important;
 }
 
 /* Explicit size for font size select button */
-.editor .tox.tox-tinymce .tox-tbtn--select[title="Font sizes"] {
-  width: 4.5em;
+.mce-everywhere .tox.tox-tinymce .tox-tbtn--select[title="Font sizes"] {
+  width: 4.5em !important;
 }
 
 /* Handles TMCE select button non-active background */
-.editor .tox.tox-tinymce .tox-tbtn--select {
-  background: var(--mce-everywhere-toolbar-select-background, var(--color-control-bg, #d9d8c8));
+.mce-everywhere .tox.tox-tinymce .tox-tbtn--select {
+  background: var(--mce-everywhere-toolbar-select-background, var(--color-control-bg, #d9d8c8)) !important;
 }
 
 /* Handles TMCE select button hovered background */
-.editor .tox.tox-tinymce .tox-tbtn--select:hover:not(.tox-tbtn--disabled) {
-  background: var(--mce-everywhere-toolbar-select-background-hover, var(--color-hover-bg, #f0f0e0));
+.mce-everywhere .tox.tox-tinymce .tox-tbtn--select:hover:not(.tox-tbtn--disabled) {
+  background: var(--mce-everywhere-toolbar-select-background-hover, var(--color-hover-bg, #f0f0e0)) !important;
 }
 
 /* Handles TMCE select button active background */
-.editor .tox.tox-tinymce .tox-tbtn--select.tox-tbtn--active:not(.tox-tbtn--disabled) {
-  background: var(--mce-everywhere-toolbar-select-background-hover, var(--color-hover-bg, #f0f0e0));
+.mce-everywhere .tox.tox-tinymce .tox-tbtn--select.tox-tbtn--active:not(.tox-tbtn--disabled) {
+  background: var(--mce-everywhere-toolbar-select-background-hover, var(--color-hover-bg, #f0f0e0)) !important;
 }
 
 /* Handles the TMCE select svg container giving a width that works with margin-right: auto for consistent space */
-.editor .tox.tox-tinymce .tox-tbtn .tox-tbtn__select-chevron {
-  max-width: 13px;
-  margin-right: 2px;
-  width: fit-content;
+.mce-everywhere .tox.tox-tinymce .tox-tbtn .tox-tbtn__select-chevron {
+  max-width: 13px !important;
+  margin-right: 2px !important;
+  width: fit-content !important;
 }
 
 /* Handles the select chevron inactive color */
-.editor .tox.tox-tinymce .tox-tbtn .tox-tbtn__select-chevron svg {
-  fill: var(--mce-everywhere-toolbar-chevron-inactive, var(--color-text-light-7, #888));
+.mce-everywhere .tox.tox-tinymce .tox-tbtn .tox-tbtn__select-chevron svg {
+  fill: var(--mce-everywhere-toolbar-chevron-inactive, var(--color-text-light-7, #888)) !important;
 }
 
 /* Handles the select chevron active hover color */
-.editor .tox.tox-tinymce .tox-tbtn:not(.tox-tbtn--disabled):hover .tox-tbtn__select-chevron svg {
-  fill: var(--mce-everywhere-toolbar-chevron-active, var(--color-text-dark-primary, #191813));
+.mce-everywhere .tox.tox-tinymce .tox-tbtn:not(.tox-tbtn--disabled):hover .tox-tbtn__select-chevron svg {
+  fill: var(--mce-everywhere-toolbar-chevron-active, var(--color-text-dark-primary, #191813)) !important;
 }
 
 /* Handles the select chevron menu active color */
-.editor .tox.tox-tinymce .tox-tbtn--active:not(.tox-tbtn--disabled) .tox-tbtn__select-chevron svg {
-  fill: var(--mce-everywhere-toolbar-chevron-active, var(--color-text-dark-primary, #191813));
+.mce-everywhere .tox.tox-tinymce .tox-tbtn--active:not(.tox-tbtn--disabled) .tox-tbtn__select-chevron svg {
+  fill: var(--mce-everywhere-toolbar-chevron-active, var(--color-text-dark-primary, #191813)) !important;
 }
 
 /* Handles this components toolbar select button width */
-.editor .tox.tox-tinymce .tox-tbtn--bespoke .tox-tbtn__select-label {
-  margin-right: auto;
-  max-width: 7em;
-  width: 7em;
+.mce-everywhere .tox.tox-tinymce .tox-tbtn--bespoke .tox-tbtn__select-label {
+  margin-right: auto !important;
+  max-width: 7em !important;
+  width: 7em !important;
 }
 
 /* The following styles affect the global / all modules TinyMCE auxiliary menus --------------------------------*/
 
 /**
- * Handles the "global" TinyMCE auxiliary toolbar select button width; this is displayed separately in the DOM
+ * Handles the "global" TinyMCE auxiliary toolbar select button width !important; this is displayed separately in the DOM
  * and this CSS will affect all TinyMCE auxiliary toolbar select buttons, but it is better.
  */
 .tox.tox-tinymce-aux .tox-tbtn--bespoke .tox-tbtn__select-label {
-  max-width: 7em;
-  width: fit-content;
+  max-width: 7em !important;
+  width: fit-content !important;
 }
 
 .tox.tox-tinymce-aux .tox-collection--list .tox-collection__item--active {
-  background: var(--mce-everywhere-menu-item-background-active, #dee0e2);
+  background: var(--mce-everywhere-menu-item-background-active, #dee0e2) !important;
 }
 
 /* Removes TMCE highlight for focused button in overflow menu. IE avoid automatic focus of first button */
 .tox.tox-tinymce-aux .tox-tbtn:focus {
-  background: var(--mce-everywhere-menu-item-background-active, #dee0e2);
+  background: var(--mce-everywhere-menu-item-background-active, #dee0e2) !important;
 }
 
 .tox.tox-tinymce-aux .tox-tbtn:hover:not(.tox-tbtn--disabled) {
-  background: var(--mce-everywhere-menu-item-background-active, #dee0e2);
+  background: var(--mce-everywhere-menu-item-background-active, #dee0e2) !important;
 }
 
 .tox.tox-tinymce-aux .tox-tbtn.tox-tbtn--enabled:not(.tox-tbtn--disabled) {
-  background: var(--mce-everywhere-menu-item-background-active, #dee0e2);
+  background: var(--mce-everywhere-menu-item-background-active, #dee0e2) !important;
 }
