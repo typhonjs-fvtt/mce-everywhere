@@ -35,17 +35,7 @@
   border: none;
 }
 
-.mce-everywhere table.tmce-nocolors thead {
-  background: none;
-  border: none;
-}
-
-.mce-everywhere table.tmce-nocolors tr {
-  background: none;
-  border: none;
-}
-
-.mce-everywhere table.tmce-nocolors td {
+.mce-everywhere table.tmce-nocolors thead, tr, td {
   background: none;
   border: none;
 }
