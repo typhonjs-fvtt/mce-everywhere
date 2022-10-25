@@ -20,7 +20,7 @@
     "verified": "10"
   },
   "esmodules": [
-    "src/index.js"
+    "index.js"
   ],
   "languages": [
     {

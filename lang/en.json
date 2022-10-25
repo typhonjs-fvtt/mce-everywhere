@@ -3,24 +3,69 @@
     "journal": {
       "validation": "The journal page title is required to be a non-empty string."
     },
+
+    "macro": {
+      "name": "TinyMCE Everywhere! Settings",
+      "button": {
+        "label": "TinyMCE Everywhere! Settings Macro",
+        "title": "Drag to hotbar."
+      }
+    },
+
+    "app": {
+      "settings": {
+        "folders": {
+          "editor-settings": "Editor Settings (world)"
+        },
+        "title": "TinyMCE Everywhere!"
+      }
+    },
+
+    "config-button": {
+      "name": "Open settings:",
+      "label": "TinyMCE Everywhere!"
+    },
+
     "settings": {
       "clientenabled": {
-        "name": "Enable 'TinyMCE Everywhere!':",
-        "hint": "Provides a client setting to enable / disable 'TinyMCE Everywhere!' for a specific user."
+        "name": "Enable TinyMCE Everywhere! (client):",
+        "hint": "Provides a client setting to enable / disable TinyMCE Everywhere! for the current user."
       },
-      "cursor": {
-        "name": "Editor cursor location:",
-        "hint": "Provides a world setting to place the cursor at the start or end of the editor when initialized.",
-        "start": "Start",
-        "end": "End"
-      },
-      "help": {
-        "name": "Editor toolbar help:",
-        "hint": "Provides a world setting to enable a help button in the editor toolbar for users unfamiliar w/ TinyMCE."
+      "location": {
+        "name": "Editor location:",
+        "hint": "Sets the location where TinyMCE Everywhere is the default / only editor available. For instance setting 'All' will make all text editors TinyMCE.",
+        "choices": {
+          "all": "All",
+          "only-journals": "Only Journals",
+          "not-journals": "Not Journals"
+        }
       },
       "journalenabled": {
         "name": "Enable for journal editing:",
         "hint": "Provides a world setting to enable / disable 'TinyMCE Everywhere!' in journal page editing. When enabled all text page sheets use TinyMCE."
+      },
+
+      "cursor": {
+        "name": "Initial cursor location:",
+        "hint": "Defines the placement of the cursor on editor initialization.",
+        "choices": {
+          "start": "Start",
+          "end": "End"
+        }
+      },
+      "help": {
+        "name": "Add toolbar help button:",
+        "hint": "Enables a help button in the editor toolbar for users unfamiliar w/ TinyMCE."
+      },
+      "toolbar": {
+        "name": "Toolbar type:",
+        "hint": "Defines the options available in the toolbar. 'Dynamic' will select either 'Basic' or 'Extended' depending on space available. 'Default' is the base Foundry configuration.",
+        "choices": {
+          "basic": "Basic",
+          "dynamic": "Dynamic",
+          "extended": "Extended",
+          "default": "Default"
+        }
       }
     }
   }

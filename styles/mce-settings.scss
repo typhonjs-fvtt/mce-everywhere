@@ -1,0 +1,81 @@
+#mce-everywhere-settings {
+  //min-width: 300px;
+  //min-height: 200px;
+  //max-height: 750px;
+
+  .window-content {
+    background: linear-gradient(135deg, rgba(52, 51, 52, 0.9) 10%, rgba(15, 14, 28, 0.9) 90%);
+    color: #b5b3a4;
+    overflow: inherit;
+    padding: 0;
+  }
+
+  // Reverse universal selector set for `.window-app .window-content > *`.
+  .window-content > * {
+    flex: unset;
+  }
+
+  // Variables for TJSSettingsEdit via TJSSettingsSwap.
+  .tjs-settings {
+    --tjs-settings-padding: 0.5em 1em;
+    --tjs-settings-section-background: rgba(255, 255, 255, 0.15);
+    --tjs-settings-section-border: 2px solid rgba(0, 0, 0, 0.75);
+    --tjs-settings-section-border-radius: 0.75em;
+    --tjs-settings-entry-hint-color: #99978b;
+
+    select > option {
+      background: rgb(66, 66, 70);
+    }
+
+    --tjs-summary-chevron-size: 1.25em;
+  }
+
+  // Light / normal theme
+  &.window-app {
+    --tjs-action-ripple-background: linear-gradient(64.5deg, rgba(245, 116, 185, 1) 40%, rgba(89, 97, 223, 1) 60% );
+
+    --tjs-icon-button-background-hover: rgba(255, 255, 255, 0.05);
+    --tjs-icon-button-background-selected: rgba(255, 255, 255, 0.1);
+    --tjs-icon-button-diameter: 1.75em;
+
+    ::-webkit-scrollbar {
+      width: 6px !important;
+      height: 6px !important;
+    }
+    ::-webkit-scrollbar-track {
+      box-shadow: 0 0 1px #999 inset !important;
+      border-radius: 4px !important;
+    }
+    ::-webkit-scrollbar-thumb {
+      outline: none !important;
+      border-radius: 3px !important;
+      background: linear-gradient(64.5deg, rgba(245, 116, 185, 1) 14.7%, rgba(89, 97, 223, 1) 88.7% ) !important;
+      border: 1px solid rgba(95, 100, 230, 1) !important;
+    }
+
+    a:hover {
+      text-shadow: 0 0 8px pink !important;
+    }
+
+    input::placeholder {
+      color: #666;
+    }
+
+    /* Unset Foundry style */
+    select:focus {
+      box-shadow: unset;
+    }
+
+    // For Firefox scrollbars
+    .container {
+      scrollbar-color: rgba(89, 97, 223, 1) #111 !important;
+    }
+
+    .style-rule {
+      background: linear-gradient(180deg, #4b4a44 0%, #191813 100%) !important;
+      border-top: solid 1px #666 !important;
+      border-bottom: solid 1px #444 !important;
+      padding: 0 0 2px 5px !important;
+    }
+  }
+}

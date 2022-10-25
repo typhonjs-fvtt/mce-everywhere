@@ -9,19 +9,37 @@ const constants = {
 };
 
 /**
+ * @type {MCESessionConstants} Defines all the module session storage static constants.
+ */
+const sessionConstants = {
+   appState: `${constants.moduleId}.settings.appState`
+};
+
+/**
  * @type {MCESettings} Defines all the module settings for world and client.
  */
 const settings = {
+   button: 'button',
    clientenabled: 'clientenabled',
    cursor: 'cursor',
    help: 'help',
    journalenabled: 'journalenabled',
+   location: 'location',
+   toolbar: 'toolbar'
 };
 
-export { constants, settings };
+export { constants, sessionConstants, settings };
+
+/**
+ * @typedef {object} MCESessionConstants
+ *
+ * @property {string} appState - Stores the settings app state.
+ */
 
 /**
  * @typedef {object} MCESettings
+ *
+ * @property {string} button - Defines the settings button for GMs.
  *
  * @property {string} clientenabled - Is MCE Everywhere enabled on the particular client?
  *
@@ -30,4 +48,8 @@ export { constants, settings };
  * @property {string} help - Adds a help button to the editor toolbar.
  *
  * @property {string} journalenabled - Enables MCE Everywhere for journal page editing.
+ *
+ * @property {string} location - Defines where MCE Everywhere replaces the editor; all, only journals, not journals.
+ *
+ * @property {string} toolbar - Defines the editor toolbar type: basic, dynamic, extended, default.
  */
