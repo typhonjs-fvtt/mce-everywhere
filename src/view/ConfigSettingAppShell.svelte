@@ -8,15 +8,29 @@
 
    import { TJSSettingsEdit }    from '@typhonjs-fvtt/svelte-standard/component';
 
+   import EditorTheming          from './EditorTheming.svelte';
    import SettingsFooter         from './SettingsFooter.svelte';
 
    import {
       mceGameSettings,
       mceSessionStorage }        from '../model/index.js';
 
-   import { sessionConstants }   from '../constants.js';
+   import {
+      constants,
+      sessionConstants }         from '../constants.js';
 
    export let elementRoot;
+
+   /**
+    * Adds extra sections to TJSSettingsEdit.
+    *
+    * @type {object[]}
+    */
+   const sections = [{
+      label: 'mce-everywhere.app.settings.folders.editor-theming',
+      class: EditorTheming,
+      store: mceSessionStorage.getStore(`${constants.moduleId}-settings-folder-theming`)
+   }];
 
    const { application } = getContext('external');
 
@@ -34,7 +48,7 @@
 </script>
 
 <ApplicationShell bind:elementRoot>
-   <TJSSettingsEdit settings={mceGameSettings} options={{ storage: mceSessionStorage }}>
+   <TJSSettingsEdit settings={mceGameSettings} options={{ storage: mceSessionStorage }} {sections}>
       <SettingsFooter slot=settings-footer />
    </TJSSettingsEdit>
 </ApplicationShell>
