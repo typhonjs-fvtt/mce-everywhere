@@ -15,7 +15,8 @@
     "app": {
       "settings": {
         "folders": {
-          "editor-settings": "Editor Settings (world)"
+          "editor-settings": "Editor Settings (world)",
+          "editor-theming": "Editor Theming (world)"
         },
         "title": "TinyMCE Everywhere!"
       }
@@ -66,6 +67,12 @@
           "extended": "Extended",
           "default": "Default"
         }
+      },
+
+      "theme": {
+        "toolbar-background": "Toolbar background color:",
+        "toolbar-font-color": "Toolbar font color:",
+        "toolbar-disabled-font-color": "Toolbar font color (disabled / inactive):"
       }
     }
   }

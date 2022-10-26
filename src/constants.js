@@ -25,6 +25,9 @@ const settings = {
    help: 'help',
    journalenabled: 'journalenabled',
    location: 'location',
+   themeToolbarBackground: 'themeToolbarBackground',
+   themeToolbarFontColor: 'themeToolbarFontColor',
+   themeToolbarDisabledFontColor: 'themeToolbarDisabledFontColor',
    toolbar: 'toolbar'
 };
 
@@ -47,9 +50,13 @@ export { constants, sessionConstants, settings };
  *
  * @property {string} help - Adds a help button to the editor toolbar.
  *
- * @property {string} journalenabled - Enables MCE Everywhere for journal page editing.
- *
  * @property {string} location - Defines where MCE Everywhere replaces the editor; all, only journals, not journals.
+ *
+ * @property {string} themeToolbarBackground - Defines the toolbar background color.
+ *
+ * @property {string} themeToolbarFontColor - Defines the toolbar font color.
+ *
+ * @property {string} themeToolbarDisabledFontColor - Defines the toolbar disabled font color.
  *
  * @property {string} toolbar - Defines the editor toolbar type: basic, dynamic, extended, default.
  */

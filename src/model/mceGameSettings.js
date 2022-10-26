@@ -142,6 +142,39 @@ class MceGameSettings extends TJSGameSettings
          }
       });
 
+      allSettings.push({
+         namespace,
+         key: settings.themeToolbarBackground,
+         options: {
+            scope: scope.world,
+            config: false,
+            default: '#000000',
+            type: String
+         }
+      });
+
+      allSettings.push({
+         namespace,
+         key: settings.themeToolbarFontColor,
+         options: {
+            scope: scope.world,
+            config: false,
+            default: '#000000',
+            type: String
+         }
+      });
+
+      allSettings.push({
+         namespace,
+         key: settings.themeToolbarDisabledFontColor,
+         options: {
+            scope: scope.world,
+            config: false,
+            default: '#000000',
+            type: String
+         }
+      });
+
       // Selectively register settings w/ core Foundry based on whether the user is GM.
       this.registerAll(allSettings, !game.user.isGM);
    }
