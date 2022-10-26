@@ -4,8 +4,6 @@
    /* svelte-ignore unused-export-let */
    export let hex;
    export let isDark;
-
-   $: console.log(`! pos: `, pos, `left: calc(${(pos.x / 200) * 160}% + 2px); top: calc(${(pos.y / 200) * 160}% + 2px)`);
 </script>
 
 <div class=picker-indicator

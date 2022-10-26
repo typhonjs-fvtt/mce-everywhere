@@ -2,8 +2,6 @@
    export let pos;
    /* svelte-ignore unused-export-let */
    export let toRight;
-
-   $: console.log(`! pos: `, pos, `top: calc(${(pos / 200) * 160}% + 2px);`);
 </script>
 
 <div class=slider-indicator

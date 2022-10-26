@@ -20,19 +20,9 @@
    };
 </script>
 
-<div>
-   <ColorPicker bind:hex
-                isPopup={false}
-                isInput={false}
-                isTextInput={false}
-                label={''}
-                {components}/>
-</div>
-
-<style>
-   div {
-      --picker-height: 50px;
-      --picker-width: 50px;
-      --slider-width: 10px;
-   }
-</style>
+<ColorPicker bind:hex
+             isPopup={false}
+             isInput={false}
+             isTextInput={false}
+             label={''}
+             {components}/>
