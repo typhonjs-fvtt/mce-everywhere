@@ -71,6 +71,7 @@
 
       "theme": {
         "toolbar-background": "Toolbar background color:",
+        "toolbar-button-hover-background-color": "Toolbar hovered button color:",
         "toolbar-font-color": "Toolbar font color:",
         "toolbar-disabled-font-color": "Toolbar font color (disabled / inactive):"
       }

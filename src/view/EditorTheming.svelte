@@ -3,35 +3,39 @@
 
    import ColorPicker         from './picker/ColorPicker.svelte';
 
-   import {
-      cssVariables,
-      mceGameSettings }       from '../model/index.js';
+   import { themeStore }      from '../model';
 
-   import { settings }        from '../constants.js';
+   const {
+      toolbarBackground,
+      toolbarButtonBackgroundHover,
+      toolbarDisabledFontColor,
+      toolbarFontColor,
+   } = themeStore.stores;
 
-   const storeToolbarBackground = mceGameSettings.getStore(settings.themeToolbarBackground)
-   const storeToolbarFontColor = mceGameSettings.getStore(settings.themeToolbarFontColor)
-   const storeToolbarDisabledFontColor = mceGameSettings.getStore(settings.themeToolbarDisabledFontColor)
-
-   $: cssVariables.setProperty('--mce-everywhere-toolbar-background', $storeToolbarBackground);
-   $: cssVariables.setProperty('--mce-everywhere-toolbar-font-color', $storeToolbarFontColor);
-   $: cssVariables.setProperty('--mce-everywhere-toolbar-disabled-font-color', $storeToolbarDisabledFontColor);
-
+   $: console.log(`! EditorTheming - toolbarBackground: `, $toolbarBackground);
+   $: console.log(`! EditorTheming - toolbarButtonBackgroundHover: `, $toolbarButtonBackgroundHover);
+   $: console.log(`! EditorTheming - toolbarDisabledFontColor: `, $toolbarDisabledFontColor);
+   $: console.log(`! EditorTheming - toolbarFontColor: `, $toolbarFontColor);
 </script>
 
 <section class=tjs-settings-entry>
    <span>{localize('mce-everywhere.settings.theme.toolbar-background')}</span>
-   <div><ColorPicker bind:hex={$storeToolbarBackground} /></div>
+   <div class=picker-1><ColorPicker bind:hex={$toolbarBackground} /></div>
+</section>
+
+<section class=tjs-settings-entry>
+   <span>{localize('mce-everywhere.settings.theme.toolbar-button-hover-background-color')}</span>
+   <div class=picker-2><ColorPicker bind:hex={$toolbarButtonBackgroundHover} /></div>
 </section>
 
 <section class=tjs-settings-entry>
    <span>{localize('mce-everywhere.settings.theme.toolbar-font-color')}</span>
-   <div><ColorPicker bind:hex={$storeToolbarFontColor} /></div>
+   <div class=picker-3><ColorPicker bind:hex={$toolbarFontColor} /></div>
 </section>
 
 <section class=tjs-settings-entry>
    <span>{localize('mce-everywhere.settings.theme.toolbar-disabled-font-color')}</span>
-   <div><ColorPicker bind:hex={$storeToolbarDisabledFontColor} /></div>
+   <div class=picker-4><ColorPicker bind:hex={$toolbarDisabledFontColor} /></div>
 </section>
 
 <style>
@@ -39,7 +43,7 @@
       display: flex;
       flex-direction: row;
       flex-wrap: nowrap;
-      flex: 3;
+      flex: 1;
       justify-content: flex-end;
       align-items: center;
    }
