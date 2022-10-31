@@ -1,17 +1,5 @@
 {
   "mce-everywhere": {
-    "journal": {
-      "validation": "The journal page title is required to be a non-empty string."
-    },
-
-    "macro": {
-      "name": "TinyMCE Everywhere! Settings",
-      "button": {
-        "label": "TinyMCE Everywhere! Settings Macro",
-        "title": "Drag to hotbar."
-      }
-    },
-
     "app": {
       "settings": {
         "folders": {
@@ -27,6 +15,19 @@
       "label": "TinyMCE Everywhere!"
     },
 
+    "macro": {
+      "name": "TinyMCE Everywhere! Settings",
+      "button": {
+        "label": "TinyMCE Everywhere! Settings Macro",
+        "title": "Drag to hotbar."
+      }
+    },
+
+    "notifications": {
+      "editor-mismatch": "TinyMCE Everywhere: Mismatch in editor engine. Please reload Foundry.",
+      "journal-validation": "The journal page title is required to be a non-empty string."
+    },
+
     "settings": {
       "clientenabled": {
         "name": "Enable TinyMCE Everywhere! (client):",
@@ -34,16 +35,12 @@
       },
       "location": {
         "name": "Editor location:",
-        "hint": "Sets the location where TinyMCE Everywhere is the default / only editor available. For instance setting 'All' will make all text editors TinyMCE.",
+        "hint": "Sets the location where TinyMCE Everywhere is the default / only editor available. For instance setting 'All' will make all text editors TinyMCE. Note: changing this setting renders all open apps again.",
         "choices": {
           "all": "All",
-          "only-journals": "Only Journals",
-          "not-journals": "Not Journals"
+          "onlyJournals": "Only Journals",
+          "notJournals": "Not Journals"
         }
-      },
-      "journalenabled": {
-        "name": "Enable for journal editing:",
-        "hint": "Provides a world setting to enable / disable 'TinyMCE Everywhere!' in journal page editing. When enabled all text page sheets use TinyMCE."
       },
 
       "cursor": {

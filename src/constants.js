@@ -23,12 +23,7 @@ const settings = {
    clientenabled: 'clientenabled',
    cursor: 'cursor',
    help: 'help',
-   journalenabled: 'journalenabled',
    location: 'location',
-   themeToolbarBackground: 'themeToolbarBackground',
-   themeToolbarButtonHoverBackgroundColor: 'themeToolbarButtonHoverBackgroundColor',
-   themeToolbarFontColor: 'themeToolbarFontColor',
-   themeToolbarDisabledFontColor: 'themeToolbarDisabledFontColor',
    themeData: 'themeData',
    toolbar: 'toolbar'
 };
@@ -55,12 +50,6 @@ export { constants, sessionConstants, settings };
  * @property {string} location - Defines where MCE Everywhere replaces the editor; all, only journals, not journals.
  *
  * @property {string} themeData - Stores the theme data object.
- *
- * @property {string} themeToolbarBackground - Defines the toolbar background color.
- *
- * @property {string} themeToolbarFontColor - Defines the toolbar font color.
- *
- * @property {string} themeToolbarDisabledFontColor - Defines the toolbar disabled font color.
  *
  * @property {string} toolbar - Defines the editor toolbar type: basic, dynamic, extended, default.
  */

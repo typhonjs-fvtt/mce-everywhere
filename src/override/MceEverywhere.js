@@ -1,4 +1,4 @@
-import { FontManager }           from '../model/FontManager.js';
+import { FontManager }           from '../model';
 import { MceConfig }             from './MceConfig.js';
 import { MceDraggable }          from './MceDraggable.js';
 import { MceImpl }               from './MceImpl.js';
@@ -14,10 +14,12 @@ export class MceEverywhere
 
       const newEditorFn = (...args) =>
       {
-         const journalEnabled = game.settings.get(constants.moduleId, settings.journalenabled);
+         const journalEnabled = MceEverywhere.#isJournalEnabled();
 
-         // If the MCE Everywhere is disabled for journals respect the existing engine parameter.
-         if (!journalEnabled && args?.[1]?.hash?.class === 'journal-page-content')
+         const isJournal = args?.[1]?.hash?.class === 'journal-page-content';
+
+         // If MCE Everywhere is disabled for journals respect the existing engine parameter.
+         if (isJournal && !journalEnabled)
          {
             return origHandlebarsEditorFn.call(HandlebarsHelpers, ...args);
          }
@@ -32,7 +34,12 @@ export class MceEverywhere
                return origHandlebarsEditorFn.call(HandlebarsHelpers, ...args);
             }
 
-            args[1].hash.engine = 'tinymce';
+            let replace = true;
+
+            // Don't replace if not a journal and only journals is set for `settings.location`.
+            if (!isJournal && MceEverywhere.#isOnlyJournalEnabled()) { replace = false; }
+
+            if (replace) { args[1].hash.engine = 'tinymce'; }
          }
 
          const result = origHandlebarsEditorFn.call(HandlebarsHelpers, ...args);
@@ -52,12 +59,26 @@ export class MceEverywhere
       // Hard override `TextEditor.create` to fully control the editor creation.
       TextEditor.create = async (options, content) =>
       {
-         const journalEnabled = game.settings.get(constants.moduleId, settings.journalenabled);
+         // const journalEnabled = game.settings.get(constants.moduleId, settings.journalenabled);
 
-         // If MCE Everywhere is disabled for journal page editing then simply call the original function
-         if (!journalEnabled && options.target.classList.contains('journal-page-content') &&
-          options.engine === 'prosemirror')
+         const isJournal = options.target.classList.contains('journal-page-content');
+         const journalEnabled = MceEverywhere.#isJournalEnabled();
+         const onlyJournalEnabled = MceEverywhere.#isOnlyJournalEnabled();
+
+         // If MCE Everywhere is disabled for journal page editing then simply call the original function.
+         // or if only journal replacement is enabled and current editor location is not a journal.
+         if ((isJournal && !journalEnabled && options.engine === 'prosemirror') || (!isJournal && onlyJournalEnabled))
          {
+            return origTextEditorCreateFn.call(TextEditor, options, content);
+         }
+
+         // Sanity check exit. If MCE Everywhere is enabled and the onChange `settings.location` doesn't render the app
+         // again to trigger the new Handlebars editor helper detect this situation and post a warning. Technically this
+         // shouldn't trigger, but there is a chance that a non `popOut` configured app that isn't tracked in
+         // `ui.windows` has an editor. This is not the case usually.
+         if (options.target?.dataset?.engine !== 'tinymce')
+         {
+            globalThis.ui.notifications.warn('mce-everywhere.notifications.editor-mismatch', { localize: true });
             return origTextEditorCreateFn.call(TextEditor, options, content);
          }
 
@@ -166,6 +187,30 @@ export class MceEverywhere
 
          return editor;
       };
+   }
+
+   /**
+    * Returns if `settings.location` for the toolbar replacement includes journals. Either `all` or `onlyJournals`
+    * includes replacement in journals.
+    *
+    * @returns {boolean}
+    */
+   static #isJournalEnabled()
+   {
+      const location = game.settings.get(constants.moduleId, settings.location);
+      return location === 'all' || location === 'onlyJournals';
+   }
+
+   /**
+    * Returns if `settings.location` for the toolbar replacement is only for journals. `onlyJournals`
+    * includes replacement only in journals.
+    *
+    * @returns {boolean}
+    */
+   static #isOnlyJournalEnabled()
+   {
+      const location = game.settings.get(constants.moduleId, settings.location);
+      return location === 'onlyJournals';
    }
 
    static #setupJournal(options, editor, content, app, appEl)
@@ -350,7 +395,7 @@ export class MceEverywhere
 
       if (!isValid)
       {
-         globalThis.ui.notifications.warn('mce-everywhere.journal.validation', { localize: true });
+         globalThis.ui.notifications.warn('mce-everywhere.notifications.journal-validation', { localize: true });
       }
 
       return isValid;

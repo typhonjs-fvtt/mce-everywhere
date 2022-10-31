@@ -1,5 +1,7 @@
 import { TJSGameSettings }       from '@typhonjs-fvtt/svelte-standard/store';
+
 import { ConfigSettingButton }   from "../view/ConfigSettingButton.js";
+import EditorTheming             from '../view/EditorTheming.svelte';
 
 import { constants, settings }   from '../constants.js';
 
@@ -10,7 +12,8 @@ class MceGameSettings extends TJSGameSettings
       super(constants.moduleId);
    }
 
-   init() {
+   init()
+   {
       const namespace = this.namespace;
 
       /**
@@ -25,11 +28,12 @@ class MceGameSettings extends TJSGameSettings
 
       const allSettings = [];
 
-      // Add a convenience hook to open Autorec settings from macro.
+      // Add a convenience hook to open settings from macro.
       Hooks.on('mce-everywhere:open:settings', () => {
          if (game.user.isGM) { ConfigSettingButton.showSettings(); }
       });
 
+      // Register a restricted menu for GMs to launch settings from standard Foundry location.
       game.settings.registerMenu(namespace, settings.button, {
          name: 'mce-everywhere.config-button.name',
          label: 'mce-everywhere.config-button.label',
@@ -37,6 +41,12 @@ class MceGameSettings extends TJSGameSettings
          type: ConfigSettingButton,
          restricted: true,
       });
+
+      // Add custom section component to end of settings.
+      this.uiControl.addSection({
+         folder: 'mce-everywhere.app.settings.folders.editor-theming',
+         class: EditorTheming
+      })
 
       // Top level ---------------------------------------------------------------------------------------------------
 
@@ -66,8 +76,21 @@ class MceGameSettings extends TJSGameSettings
             type: String,
             choices: {
                all: 'mce-everywhere.settings.location.choices.all',
-               onlyJournals: 'mce-everywhere.settings.location.choices.only-journals',
-               notJournals: 'mce-everywhere.settings.location.choices.not-journals'
+               onlyJournals: 'mce-everywhere.settings.location.choices.onlyJournals',
+               notJournals: 'mce-everywhere.settings.location.choices.notJournals'
+            },
+            onChange: () =>
+            {
+               // When changed the editor handlebars helper must render again, so render all UI windows.
+               // Note: If by chance that there is an editor in a nop-popOut Application there is a sanity check
+               // in `MceEverywhere`.
+               if (typeof globalThis.ui.windows === 'object')
+               {
+                  for (const app of Object.values(globalThis.ui.windows))
+                  {
+                     if (typeof app?.render === 'function') { app.render(true); }
+                  }
+               }
             }
          }
       });
@@ -123,55 +146,6 @@ class MceGameSettings extends TJSGameSettings
             config: true,
             default: false,
             type: Boolean
-         }
-      });
-
-      // Editor Theme ------------------------------------------------------------------------------------------------
-
-      // TODO REMOVE
-      allSettings.push({
-         namespace,
-         key: settings.journalenabled,
-         options: {
-            name: 'mce-everywhere.settings.journalenabled.name',
-            hint: 'mce-everywhere.settings.journalenabled.hint',
-            scope: scope.world,
-            config: false,
-            default: true,
-            type: Boolean
-         }
-      });
-
-      allSettings.push({
-         namespace,
-         key: settings.themeToolbarBackground,
-         options: {
-            scope: scope.world,
-            config: false,
-            default: '#000000',
-            type: String
-         }
-      });
-
-      allSettings.push({
-         namespace,
-         key: settings.themeToolbarFontColor,
-         options: {
-            scope: scope.world,
-            config: false,
-            default: '#000000',
-            type: String
-         }
-      });
-
-      allSettings.push({
-         namespace,
-         key: settings.themeToolbarDisabledFontColor,
-         options: {
-            scope: scope.world,
-            config: false,
-            default: '#000000',
-            type: String
          }
       });
 
