@@ -4,7 +4,7 @@
    export let toRight = false;
 </script>
 
-<div class="picker-wrapper" class:focused>
+<div class=picker-wrapper class:focused>
    <slot />
 </div>
 

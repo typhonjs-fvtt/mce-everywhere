@@ -4,12 +4,12 @@
    /* svelte-ignore unused-export-let */
    export let hex;
    export let isDark;
+
+   $: pickerStyle = `left: calc(${(pos.x / 200) * 160}% + 0.5px); top: calc(${
+    (pos.y / 200) * 160}% + 0.5px); box-shadow: 0 0 4px ${isDark ? 'white' : 'black'};`;
 </script>
 
-<div class=picker-indicator
-     style={`left: calc(${(pos.x / 200) * 160}% + 0.5px); top: calc(${
-		(pos.y / 200) * 160}% + 0.5px); box-shadow: 0 0 4px ${isDark ? 'white' : 'black'};`}
-/>
+<div class=picker-indicator style={pickerStyle} />
 
 <style>
    div {

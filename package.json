@@ -11,8 +11,7 @@
   "dependencies": {
     "@typhonjs-fvtt/runtime": "^0.0.20",
     "@typhonjs-fvtt/svelte-standard": "^0.0.17",
-    "svelte": "^3.52.0",
-    "svelte-awesome-color-picker": "^2.1.1"
+    "svelte": "^3.52.0"
   },
   "devDependencies": {
     "@typhonjs-config/eslint-config": "^0.3.0",

@@ -1,7 +1,7 @@
 <script>
    import { localize }        from '@typhonjs-fvtt/runtime/svelte/helper';
 
-   import ColorPicker         from './picker/ColorPicker.svelte';
+   import MceColorPicker      from './picker/MceColorPicker.svelte';
 
    import { themeStore }      from '../model';
 
@@ -11,43 +11,29 @@
       toolbarDisabledFontColor,
       toolbarFontColor,
    } = themeStore.stores;
-
-   $: console.log(`! EditorTheming - toolbarBackground: `, $toolbarBackground);
-   $: console.log(`! EditorTheming - toolbarButtonBackgroundHover: `, $toolbarButtonBackgroundHover);
-   $: console.log(`! EditorTheming - toolbarDisabledFontColor: `, $toolbarDisabledFontColor);
-   $: console.log(`! EditorTheming - toolbarFontColor: `, $toolbarFontColor);
 </script>
 
 <section class=tjs-settings-entry>
    <span>{localize('mce-everywhere.settings.theme.toolbar-background')}</span>
-   <div class=picker-1><ColorPicker bind:hex={$toolbarBackground} /></div>
+   <MceColorPicker bind:hsv={$toolbarBackground} />
 </section>
 
 <section class=tjs-settings-entry>
    <span>{localize('mce-everywhere.settings.theme.toolbar-button-hover-background-color')}</span>
-   <div class=picker-2><ColorPicker bind:hex={$toolbarButtonBackgroundHover} /></div>
+   <MceColorPicker bind:hsv={$toolbarButtonBackgroundHover} />
 </section>
 
 <section class=tjs-settings-entry>
    <span>{localize('mce-everywhere.settings.theme.toolbar-font-color')}</span>
-   <div class=picker-3><ColorPicker bind:hex={$toolbarFontColor} /></div>
+   <MceColorPicker bind:hsv={$toolbarFontColor} />
 </section>
 
 <section class=tjs-settings-entry>
    <span>{localize('mce-everywhere.settings.theme.toolbar-disabled-font-color')}</span>
-   <div class=picker-4><ColorPicker bind:hex={$toolbarDisabledFontColor} /></div>
+   <MceColorPicker bind:hsv={$toolbarDisabledFontColor} />
 </section>
 
 <style>
-   div {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: nowrap;
-      flex: 1;
-      justify-content: flex-end;
-      align-items: center;
-   }
-
    span {
       color: var(--tjs-settings-entry-label-color, inherit);
       font-size: var(--tjs-settings-entry-label-font-size, inherit);
@@ -62,9 +48,9 @@
       flex-wrap: wrap;
       align-items: center;
 
-      --picker-height: 50px;
-      --picker-width: 50px;
-      --slider-width: 10px;
+      --tjs-color-picker-picker-height: 50px;
+      --tjs-color-picker-picker-width: 50px;
+      --tjs-color-picker-slider-width: 10px;
    }
 
    section:not(:last-child) {

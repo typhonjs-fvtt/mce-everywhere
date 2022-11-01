@@ -1,4 +1,6 @@
+import { colord }          from '@typhonjs-fvtt/runtime/color/colord';
 import { propertyStore }   from '@typhonjs-fvtt/runtime/svelte/store';
+import { isObject }        from '@typhonjs-fvtt/runtime/svelte/util';
 
 import { mceGameSettings } from './mceGameSettings.js';
 
@@ -7,8 +9,6 @@ import { cssVariables }    from './cssVariables.js';
 import {
    constants,
    settings }              from '../constants.js';
-
-import { get } from 'svelte/store';
 
 /**
  * @typedef {object} ThemeStores
@@ -25,13 +25,6 @@ import { get } from 'svelte/store';
 
 class ThemeStore
 {
-   /**
-    * Provides a regex to validate theme data properties ensuring they are 6 or 8 length hex colors.
-    *
-    * @type {RegExp}
-    */
-   static #hexColorRegex = /^(#[a-zA-Z0-9]{8})|(#[a-zA-Z0-9]{6})$/;
-
    #defaultThemeData;
 
    #initialThemeData;
@@ -68,24 +61,17 @@ class ThemeStore
     */
    get stores()
    {
-// console.log(`! themeStore - get stores`)
-      for (const key of Object.keys(this.#stores))
-      {
-// console.log(`! themeStore - get stores - key: ${key}; value: `, get(this.#stores[key]))
-      }
-
       return this.#stores;
    }
 
    init()
    {
-// console.log(`! themeStore - init`)
       this.#defaultThemeData = this.#selectDefaultData();
       this.#initialThemeData = Object.assign({}, this.#defaultThemeData);
 
       for (const key of this.#keys)
       {
-         this.#data[key] = this.#defaultThemeData[key];
+         // this.#data[key] = this.#defaultThemeData[key];
          this.#stores[this.#keyStores[key]] = propertyStore(this, key);
       }
 
@@ -100,7 +86,7 @@ class ThemeStore
             type: Object
          }
       });
-// game.settings.set(constants.moduleId, settings.themeData, this.#defaultThemeData);
+
       this.#initialThemeData = game.settings.get(constants.moduleId, settings.themeData);
 
       if (!this.#validateThemeData(this.#initialThemeData))
@@ -117,60 +103,68 @@ class ThemeStore
    #selectDefaultData()
    {
       return {
-         // '--mce-everywhere-toolbar-background': { h: 0, s: 0, v: 0, a: 0.1 },
-         // '--mce-everywhere-toolbar-button-background-hover': { h: 60, s: 7, v: 94, a: 1 },
-         // '--mce-everywhere-toolbar-disabled-font-color': { h: 212, s: 45, v: 24, a: 0.5 },
-         // '--mce-everywhere-toolbar-font-color': { h: 50, s: 24, v: 10, a: 1 },
-         '--mce-everywhere-toolbar-background': '#0000001a',
-         '--mce-everywhere-toolbar-button-background-hover': '#f0f0e0',
-         '--mce-everywhere-toolbar-disabled-font-color': '#222f3e80',
-         '--mce-everywhere-toolbar-font-color': '#191813',
-      }
+         '--mce-everywhere-toolbar-background': { h: 0, s: 0, v: 0, a: 0.1 },
+         '--mce-everywhere-toolbar-button-background-hover': { h: 60, s: 7, v: 94, a: 1 },
+         '--mce-everywhere-toolbar-disabled-font-color': { h: 212, s: 45, v: 24, a: 0.5 },
+         '--mce-everywhere-toolbar-font-color': { h: 50, s: 24, v: 10, a: 1 }
+      };
    }
 
+   /**
+    * Sets the theme store with new data.
+    *
+    * TODO: Needs a rework at some point. TJSColorPicker is a new component and currently only serializes HSV colors
+    * to an object. This is problematic when using `propertyStore` on the single setting containing multiple CSS
+    * variables also stored as objects due to the `propertyStore` not being able to check for equality.
+    *
+    * When TJSColorPicker is upgraded to handle data + text strings ideally switching to HSV color strings will
+    * relax the restriction of notifying all subscribers / `propertyStores`.
+    *
+    * @param {object}   theme -
+    *
+    * @param {boolean}  forceUpdateAllSubscribers -
+    *
+    * @returns {ThemeStore}
+    */
    set(theme, forceUpdateAllSubscribers = false)
    {
       let updateAllSubscribers = forceUpdateAllSubscribers;
 
       if (!this.#validateThemeData(theme))
       {
-// console.log(`! themeStore - set - A - INVALID THEME DATA: `, theme);
          theme = Object.assign({}, this.#initialThemeData);
          updateAllSubscribers = true;
       }
 
-// console.log(`! themeStore - set - 0 - theme: `, theme);
-// console.trace();
       for (const key of this.#keys)
       {
          const keyData = theme[key];
 
-         if ((typeof keyData === 'string' || keyData === null) && this.#data[key] !== keyData)
-         {
-// console.log(`! themeStore - set - 1 - key: ${key} - value: ${keyData}`, );
-// console.trace();
-// console.log(`! themeStore - set - 2 - current store value: `, get(this.#stores[this.#keyStores[key]]))
-            this.#data[key] = keyData;
-            cssVariables.setProperty(key, keyData);
-         }
+         this.#data[key] = keyData;
+         cssVariables.setProperty(key, colord(keyData).toHex());
       }
 
-      this.#updateSubscribers();
-
-      // // Usually only update the TJSGameSettings store handler on `set`. However, if data validation fails then update
-      // // all subscribers including all of the propertyStore instances / `this.#stores` with the new valid data.
-      // if (updateAllSubscribers)
-      // {
-      //    this.#updateSubscribers();
-      // }
-      // else if (this.#settingsStoreHandler)
-      // {
-      //    this.#settingsStoreHandler(theme);
-      // }
+      // Usually only update the TJSGameSettings store handler on `set`. However, if data validation fails then update
+      // all subscribers including all the propertyStore instances / `this.#stores` with the new valid data.
+      if (updateAllSubscribers)
+      {
+         this.#updateSubscribers();
+      }
+      else if (this.#settingsStoreHandler)
+      {
+         this.#settingsStoreHandler(theme);
+      }
 
       return this;
    }
 
+   /**
+    * Validates the given theme data object ensuring that all parameters are found and are correct HSVA values.
+    *
+    * @param {object}   themeData -
+    *
+    * @returns {boolean} Validation status.
+    */
    #validateThemeData(themeData)
    {
       if (typeof themeData !== 'object' || themeData === null)
@@ -183,11 +177,44 @@ class ThemeStore
 
       for (const key of this.#keys)
       {
-         if (!ThemeStore.#hexColorRegex.test(themeData[key]))
+         const data = themeData[key];
+
+         if (!isObject(data))
          {
-            console.warn(
-             `TinyMCE Eveywhere (mce-everywhere) warning: data for property '${
-               key}' not a hex color. Resetting to initial data.`);
+            console.warn(`TinyMCE Eveywhere (mce-everywhere) warning: data for property '${
+             key}' not an object. Resetting to initial data.`);
+
+            return false;
+         }
+
+         if (typeof data.h !== 'number' || data.h < 0 || data.h > 360)
+         {
+            console.warn(`TinyMCE Eveywhere (mce-everywhere) warning: 'hue (h)' for property '${
+             key}' is malformed or out of range. Resetting to initial data.`);
+
+            return false;
+         }
+
+         if (typeof data.s !== 'number' || data.s < 0 || data.s > 100)
+         {
+            console.warn(`TinyMCE Eveywhere (mce-everywhere) warning: 'saturation (s)' for property '${
+             key}' is malformed or out of range. Resetting to initial data.`);
+
+            return false;
+         }
+
+         if (typeof data.v !== 'number' || data.v < 0 || data.v > 100)
+         {
+            console.warn(`TinyMCE Eveywhere (mce-everywhere) warning: 'value (v)' for property '${
+             key}' is malformed or out of range. Resetting to initial data.`);
+
+            return false;
+         }
+
+         if (typeof data.a !== 'number' || data.a < 0 || data.a > 1)
+         {
+            console.warn(`TinyMCE Eveywhere (mce-everywhere) warning: alpha (a) for property '${
+             key}' is malformed or out of range. Resetting to initial data.`);
 
             return false;
          }
