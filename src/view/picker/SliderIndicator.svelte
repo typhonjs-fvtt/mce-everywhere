@@ -1,8 +1,8 @@
 <script>
+   /** @type {number} */
    export let pos;
-   /* svelte-ignore unused-export-let */
-   export let toRight;
 
+   /** @type {string} */
    $: sliderStyle = `top: calc(${(pos / 200) * 160}% + 2px);`;
 </script>
 
