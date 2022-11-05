@@ -5,8 +5,7 @@
 
    import { themeStore }      from '../model';
 
-   import { TJSColorPicker }  from '@typhonjs-fvtt/svelte-standard/component/color-picker';
-   import { components }  from '@typhonjs-fvtt/svelte-standard/component/color-picker/chrome';
+   import { TJSColorPicker }  from '@typhonjs-fvtt/svelte-standard/component';
 
    const {
       toolbarBackground,
@@ -14,11 +13,6 @@
       toolbarDisabledFontColor,
       toolbarFontColor,
    } = themeStore.stores;
-
-   const options = {
-      isTextInput: false,
-      isPopup: false
-   }
 
    const options2 = {
       isAlpha: true,
@@ -30,22 +24,22 @@
 <div>
    <section class=tjs-settings-entry>
       <span>{localize('mce-everywhere.settings.theme.toolbar-background')}</span>
-      <MceColorPicker bind:hsv={$toolbarBackground} {options}/>
+      <MceColorPicker bind:hsv={$toolbarBackground} />
    </section>
 
 <!--   <section class=tjs-settings-entry>-->
 <!--      <span>{localize('mce-everywhere.settings.theme.toolbar-button-hover-background-color')}</span>-->
-<!--      <MceColorPicker bind:hsv={$toolbarButtonBackgroundHover} {options}/>-->
+<!--      <MceColorPicker bind:hsv={$toolbarButtonBackgroundHover} />-->
 <!--   </section>-->
 <!--   -->
 <!--   <section class=tjs-settings-entry>-->
 <!--      <span>{localize('mce-everywhere.settings.theme.toolbar-font-color')}</span>-->
-<!--      <MceColorPicker bind:hsv={$toolbarFontColor} {options}/>-->
+<!--      <MceColorPicker bind:hsv={$toolbarFontColor} />-->
 <!--   </section>-->
 <!--   -->
 <!--   <section class=tjs-settings-entry>-->
 <!--      <span>{localize('mce-everywhere.settings.theme.toolbar-disabled-font-color')}</span>-->
-<!--      <MceColorPicker bind:hsv={$toolbarDisabledFontColor} {options}/>-->
+<!--      <MceColorPicker bind:hsv={$toolbarDisabledFontColor} />-->
 <!--   </section>-->
 
 </div>
@@ -56,6 +50,7 @@
          <input type=checkbox bind:checked={options2.isAlpha}>
          <input type=checkbox bind:checked={options2.isPopup}>
          <input type=checkbox bind:checked={options2.isTextInput}>
+         <input type=checkbox on:change={(e) => options2.variant = e.target.checked ? 'chrome' : void 0}>
       </main>
    </section>
 
