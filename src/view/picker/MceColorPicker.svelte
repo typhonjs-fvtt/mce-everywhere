@@ -4,7 +4,7 @@
    import PickerIndicator  from './PickerIndicator.svelte';
    import SliderIndicator  from './SliderIndicator.svelte';
 
-   export let hsv;
+   export let color;
 
    const options = {
       isTextInput: false,
@@ -18,4 +18,4 @@
    }
 </script>
 
-<TJSColorPicker bind:hsv={hsv} {options} />
+<TJSColorPicker bind:color {options} />
