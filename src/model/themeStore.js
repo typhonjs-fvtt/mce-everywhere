@@ -1,6 +1,5 @@
-import { colord }          from '@typhonjs-fvtt/runtime/color/colord';
+import { getFormat }       from '@typhonjs-fvtt/runtime/color/colord';
 import { propertyStore }   from '@typhonjs-fvtt/runtime/svelte/store';
-import { isObject }        from '@typhonjs-fvtt/runtime/svelte/util';
 
 import { mceGameSettings } from './mceGameSettings.js';
 
@@ -103,57 +102,33 @@ class ThemeStore
    #selectDefaultData()
    {
       return {
-         '--mce-everywhere-toolbar-background': { h: 0, s: 0, v: 0, a: 0.1 },
-         '--mce-everywhere-toolbar-button-background-hover': { h: 60, s: 7, v: 94, a: 1 },
-         '--mce-everywhere-toolbar-disabled-font-color': { h: 212, s: 45, v: 24, a: 0.5 },
-         '--mce-everywhere-toolbar-font-color': { h: 50, s: 24, v: 10, a: 1 }
+         '--mce-everywhere-toolbar-background': 'hsla(0, 0%, 0%, 0.1)',
+         '--mce-everywhere-toolbar-button-background-hover': 'hsl(60, 35%, 91%)',
+         '--mce-everywhere-toolbar-disabled-font-color': 'hsla(212, 29%, 19%, 0.5)',
+         '--mce-everywhere-toolbar-font-color': 'hsl(50, 14%, 9%)'
       };
    }
 
    /**
     * Sets the theme store with new data.
     *
-    * TODO: Needs a rework at some point. TJSColorPicker is a new component and currently only serializes HSV colors
-    * to an object. This is problematic when using `propertyStore` on the single setting containing multiple CSS
-    * variables also stored as objects due to the `propertyStore` not being able to check for equality.
-    *
-    * When TJSColorPicker is upgraded to handle data + text strings ideally switching to HSV color strings will
-    * relax the restriction of notifying all subscribers / `propertyStores`.
-    *
     * @param {object}   theme -
-    *
-    * @param {boolean}  forceUpdateAllSubscribers -
     *
     * @returns {ThemeStore}
     */
-   set(theme, forceUpdateAllSubscribers = false)
+   set(theme)
    {
-      let updateAllSubscribers = forceUpdateAllSubscribers;
-
-      if (!this.#validateThemeData(theme))
-      {
-         theme = Object.assign({}, this.#initialThemeData);
-         updateAllSubscribers = true;
-      }
+      if (!this.#validateThemeData(theme)) { theme = Object.assign({}, this.#initialThemeData); }
 
       for (const key of this.#keys)
       {
          const keyData = theme[key];
 
          this.#data[key] = keyData;
-         cssVariables.setProperty(key, colord(keyData).toHex());
+         cssVariables.setProperty(key, keyData);
       }
 
-      // Usually only update the TJSGameSettings store handler on `set`. However, if data validation fails then update
-      // all subscribers including all the propertyStore instances / `this.#stores` with the new valid data.
-      if (updateAllSubscribers)
-      {
-         this.#updateSubscribers();
-      }
-      else if (this.#settingsStoreHandler)
-      {
-         this.#settingsStoreHandler(theme);
-      }
+      this.#updateSubscribers();
 
       return this;
    }
@@ -170,7 +145,7 @@ class ThemeStore
       if (typeof themeData !== 'object' || themeData === null)
       {
          console.warn(
-          `TinyMCE Eveywhere (mce-everywhere) warning: 'theme' data not an object resetting to initial data.`);
+          `TinyMCE Eveywhere (mce-everywhere) warning: 'theme' data is not an object resetting to initial data.`);
 
          return false;
       }
@@ -179,42 +154,10 @@ class ThemeStore
       {
          const data = themeData[key];
 
-         if (!isObject(data))
+         if (getFormat(data) !== 'hsl')
          {
             console.warn(`TinyMCE Eveywhere (mce-everywhere) warning: data for property '${
-             key}' not an object. Resetting to initial data.`);
-
-            return false;
-         }
-
-         if (typeof data.h !== 'number' || data.h < 0 || data.h > 360)
-         {
-            console.warn(`TinyMCE Eveywhere (mce-everywhere) warning: 'hue (h)' for property '${
-             key}' is malformed or out of range. Resetting to initial data.`);
-
-            return false;
-         }
-
-         if (typeof data.s !== 'number' || data.s < 0 || data.s > 100)
-         {
-            console.warn(`TinyMCE Eveywhere (mce-everywhere) warning: 'saturation (s)' for property '${
-             key}' is malformed or out of range. Resetting to initial data.`);
-
-            return false;
-         }
-
-         if (typeof data.v !== 'number' || data.v < 0 || data.v > 100)
-         {
-            console.warn(`TinyMCE Eveywhere (mce-everywhere) warning: 'value (v)' for property '${
-             key}' is malformed or out of range. Resetting to initial data.`);
-
-            return false;
-         }
-
-         if (typeof data.a !== 'number' || data.a < 0 || data.a > 1)
-         {
-            console.warn(`TinyMCE Eveywhere (mce-everywhere) warning: alpha (a) for property '${
-             key}' is malformed or out of range. Resetting to initial data.`);
+             key}' is not a HSL color string. Resetting to initial data.`);
 
             return false;
          }
@@ -222,7 +165,6 @@ class ThemeStore
 
       return true;
    }
-
 
    // ------------
 

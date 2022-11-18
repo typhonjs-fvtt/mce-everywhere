@@ -16,46 +16,88 @@
 
    const options2 = {
       isAlpha: true,
-      isPopup: true,
-      isTextInput: true
+      isPopup: false,
+      isTextInput: true,
+      precision: 0,
+      format: 'hsl',
+      formatType: 'string'
    }
+
+   // $: console.log(`! EditorTheming - $toolbarBackground: `, $toolbarBackground)
+
+   // let color = 'rgb(50, 50, 50)';
+
+   // let color = 'hsl(240, 50%, 100%, 0.5)';
+
+   // let color = 'hsla(-0.25turn 50% 100% / 0.5)';
+   let color = 'hsla(-0.25456565656turn 99.456546456456% 50% / 0.5)';
+
+   // let color = 'hsl(240, 100%, 50%, 0.5)';
+   // let color = 'hsla(240, 50%, 99%, 0.5)';
+
+   // let color = void 0;
 </script>
 
 <div>
    <section class=tjs-settings-entry>
       <span>{localize('mce-everywhere.settings.theme.toolbar-background')}</span>
-      <MceColorPicker bind:hsv={$toolbarBackground} />
+      <MceColorPicker bind:color={$toolbarBackground} />
    </section>
 
-<!--   <section class=tjs-settings-entry>-->
-<!--      <span>{localize('mce-everywhere.settings.theme.toolbar-button-hover-background-color')}</span>-->
-<!--      <MceColorPicker bind:hsv={$toolbarButtonBackgroundHover} />-->
-<!--   </section>-->
-<!--   -->
-<!--   <section class=tjs-settings-entry>-->
-<!--      <span>{localize('mce-everywhere.settings.theme.toolbar-font-color')}</span>-->
-<!--      <MceColorPicker bind:hsv={$toolbarFontColor} />-->
-<!--   </section>-->
-<!--   -->
-<!--   <section class=tjs-settings-entry>-->
-<!--      <span>{localize('mce-everywhere.settings.theme.toolbar-disabled-font-color')}</span>-->
-<!--      <MceColorPicker bind:hsv={$toolbarDisabledFontColor} />-->
-<!--   </section>-->
+   <section class=tjs-settings-entry>
+      <span>{localize('mce-everywhere.settings.theme.toolbar-button-hover-background-color')}</span>
+      <MceColorPicker bind:color={$toolbarButtonBackgroundHover} />
+   </section>
+
+   <section class=tjs-settings-entry>
+      <span>{localize('mce-everywhere.settings.theme.toolbar-font-color')}</span>
+      <MceColorPicker bind:color={$toolbarFontColor} />
+   </section>
+
+   <section class=tjs-settings-entry>
+      <span>{localize('mce-everywhere.settings.theme.toolbar-disabled-font-color')}</span>
+      <MceColorPicker bind:color={$toolbarDisabledFontColor} />
+   </section>
 
 </div>
 
    <section class=tjs-settings-entry>
-      <span>Enable alpha / popup / text input</span>
       <main>
-         <input type=checkbox bind:checked={options2.isAlpha}>
-         <input type=checkbox bind:checked={options2.isPopup}>
-         <input type=checkbox bind:checked={options2.isTextInput}>
-         <input type=checkbox on:change={(e) => options2.variant = e.target.checked ? 'chrome' : void 0}>
+         <label>Chrome Layout:<input type=checkbox on:change={(e) => options2.layout = e.target.checked ? 'chrome' : void 0}></label>
+         <label>Enable Alpha:<input type=checkbox bind:checked={options2.isAlpha}></label>
+         <label>Popup:<input type=checkbox bind:checked={options2.isPopup}></label>
+         <label>Text Input:<input type=checkbox bind:checked={options2.isTextInput}></label>
       </main>
    </section>
 
+   <section class=tjs-settings-entry>
+      <main>
+         <label>Format:
+            <select bind:value={options2.format}>
+               <option value=hex>HEX</option>
+               <option value=hsl>HSL</option>
+               <option value=hsv>HSV</option>
+               <option value=rgb>RGB</option>
+            </select>
+         </label>
+         <label>Type:
+            <select bind:value={options2.formatType}>
+               <option value=string>String</option>
+               <option value=object>Object</option>
+            </select>
+         </label>
+         <label>Precision: <input type=range min=0 max=10 bind:value={options2.precision} style="width: 100px"></label>
+      </main>
+   </section>
+
+   <section class=tjs-settings-entry>
+      <span>{typeof color === 'object' ? JSON.stringify(color) : color}</span>
+   </section>
+
 <main>
-   <TJSColorPicker options={options2} />
+   <TJSColorPicker bind:color options={options2} />
+<!--   <TJSColorPicker color={'hsl(240, 50%, 99%, 0.5)'} options={options2} />-->
+<!--   <TJSColorPicker options={options2} />-->
 </main>
 
 <!--<br />-->
@@ -63,6 +105,13 @@
 
 
 <style>
+   input, select {
+      margin: 0 8px;
+      vertical-align: bottom;
+      position: relative;
+      top: 1px;
+   }
+
    span {
       color: var(--tjs-settings-entry-label-color, inherit);
       font-size: var(--tjs-settings-entry-label-font-size, inherit);
