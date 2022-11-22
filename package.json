@@ -9,16 +9,20 @@
     "Michael Leahy <support@typhonjs.io> (https://github.com/typhonrt)"
   ],
   "dependencies": {
-    "@typhonjs-fvtt/runtime": "^0.0.20",
+    "@typhonjs-fvtt/runtime": "^0.0.21",
     "@typhonjs-fvtt/svelte-standard": "^0.0.17",
     "svelte": "^3.52.0"
   },
   "devDependencies": {
     "@typhonjs-config/eslint-config": "^0.3.0",
     "@typhonjs-fvtt/eslint-config-foundry.js": "^0.8.0",
+    "colorjs.io": "^0.4.2",
     "eslint": "^8",
     "svelte-preprocess": "^4.10.0",
-    "vite": "^3"
+    "vite": "^3",
+    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-svelte": "^7.1.0",
+    "rollup-plugin-terser": "^7.0.2"
   },
   "peerDependencies": {
     "@rollup/plugin-node-resolve": "^15",
@@ -33,6 +37,7 @@
   "scripts": {
     "build": "vite build",
     "dev": "vite",
-    "eslint": "eslint ."
+    "eslint": "eslint .",
+    "rollup-build": "rollup --config"
   }
 }

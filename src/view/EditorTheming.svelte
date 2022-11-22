@@ -1,11 +1,11 @@
 <script>
    import { localize }        from '@typhonjs-fvtt/runtime/svelte/helper';
 
-   import MceColorPicker      from './picker/MceColorPicker.svelte';
+   // import MceColorPicker      from './picker/MceColorPicker.svelte';
 
    import { themeStore }      from '../model';
 
-   import { TJSColorPicker }  from '@typhonjs-fvtt/svelte-standard/component';
+   import { TJSColordPicker }  from '@typhonjs-fvtt/svelte-standard/component';
 
    const {
       toolbarBackground,
@@ -15,23 +15,26 @@
    } = themeStore.stores;
 
    const options2 = {
+      format: 'hsl',
+      formatType: 'string',
       isAlpha: true,
-      isPopup: false,
+      isPopup: true,
       isTextInput: true,
       precision: 0,
-      format: 'hsl',
-      formatType: 'string'
+      width: 250
    }
 
    // $: console.log(`! EditorTheming - $toolbarBackground: `, $toolbarBackground)
 
-   // let color = 'rgb(50, 50, 50)';
-
-   // let color = 'hsl(240, 50%, 100%, 0.5)';
+   // let color = '#ff0000';
+   // let color = 'rgba(255, 50, 50, 0.5)';
+   // let color = 'hsla(240, 50%, 100%, 0.5)';
+   // let color = 'hwb(194 0% 0% / .5)';
 
    // let color = 'hsla(-0.25turn 50% 100% / 0.5)';
-   let color = 'hsla(-0.25456565656turn 99.456546456456% 50% / 0.5)';
+   // let color = 'hsla(-0.25456565656turn 99.456546456456% 50% / 0.5)';
 
+   let color = 'hsl(240 100% 50% / 0.5)';
    // let color = 'hsl(240, 100%, 50%, 0.5)';
    // let color = 'hsla(240, 50%, 99%, 0.5)';
 
@@ -39,25 +42,25 @@
 </script>
 
 <div>
-   <section class=tjs-settings-entry>
-      <span>{localize('mce-everywhere.settings.theme.toolbar-background')}</span>
-      <MceColorPicker bind:color={$toolbarBackground} />
-   </section>
+<!--   <section class=tjs-settings-entry>-->
+<!--      <span>{localize('mce-everywhere.settings.theme.toolbar-background')}</span>-->
+<!--      <MceColorPicker bind:color={$toolbarBackground} />-->
+<!--   </section>-->
 
-   <section class=tjs-settings-entry>
-      <span>{localize('mce-everywhere.settings.theme.toolbar-button-hover-background-color')}</span>
-      <MceColorPicker bind:color={$toolbarButtonBackgroundHover} />
-   </section>
+<!--   <section class=tjs-settings-entry>-->
+<!--      <span>{localize('mce-everywhere.settings.theme.toolbar-button-hover-background-color')}</span>-->
+<!--      <MceColorPicker bind:color={$toolbarButtonBackgroundHover} />-->
+<!--   </section>-->
 
-   <section class=tjs-settings-entry>
-      <span>{localize('mce-everywhere.settings.theme.toolbar-font-color')}</span>
-      <MceColorPicker bind:color={$toolbarFontColor} />
-   </section>
+<!--   <section class=tjs-settings-entry>-->
+<!--      <span>{localize('mce-everywhere.settings.theme.toolbar-font-color')}</span>-->
+<!--      <MceColorPicker bind:color={$toolbarFontColor} />-->
+<!--   </section>-->
 
-   <section class=tjs-settings-entry>
-      <span>{localize('mce-everywhere.settings.theme.toolbar-disabled-font-color')}</span>
-      <MceColorPicker bind:color={$toolbarDisabledFontColor} />
-   </section>
+<!--   <section class=tjs-settings-entry>-->
+<!--      <span>{localize('mce-everywhere.settings.theme.toolbar-disabled-font-color')}</span>-->
+<!--      <MceColorPicker bind:color={$toolbarDisabledFontColor} />-->
+<!--   </section>-->
 
 </div>
 
@@ -87,6 +90,7 @@
             </select>
          </label>
          <label>Precision: <input type=range min=0 max=10 bind:value={options2.precision} style="width: 100px"></label>
+         <label>Width: <input type=range min=50 max=400 bind:value={options2.width} style="width: 100px"></label>
       </main>
    </section>
 
@@ -95,17 +99,17 @@
    </section>
 
 <main>
-   <TJSColorPicker bind:color options={options2} />
-<!--   <TJSColorPicker color={'hsl(240, 50%, 99%, 0.5)'} options={options2} />-->
+   <TJSColordPicker bind:color options={options2} />
 <!--   <TJSColorPicker options={options2} />-->
 </main>
 
-<!--<br />-->
-<!--<TJSColorPicker />-->
-
+<!--<main>-->
+<!--   <TJSColordPicker bind:color options={options2} />-->
+<!--&lt;!&ndash;   <TJSColorPicker options={options2} />&ndash;&gt;-->
+<!--</main>-->
 
 <style>
-   input, select {
+   input { /*}, select { */
       margin: 0 8px;
       vertical-align: bottom;
       position: relative;
@@ -119,21 +123,21 @@
       flex: 2;
    }
 
-   div {
-      --tjs-color-picker-picker-margin: 0 3px 0 0;
-      --tjs-color-picker-picker-height: 54px;
-      --tjs-color-picker-picker-width: 54px;
-      --tjs-color-picker-picker-border-radius: 5px;
-      --tjs-color-picker-slider-margin: 0 3px 0 0;
-      --tjs-color-picker-slider-height: 54px;
-      --tjs-color-picker-slider-width: 10px;
-      --tjs-color-picker-wrapper-background: rgba(0, 0, 0, 0.2);
-      --tjs-color-picker-wrapper-padding: 3px 0 0 3px;
-      --tjs-color-picker-wrapper-margin: 0;
-      --tjs-color-picker-wrapper-border-radius: 8px;
-      --tjs-color-picker-wrapper-height: 62px;
-      --tjs-color-picker-wrapper-width: fit-content;
-   }
+   /*div {*/
+   /*   --tjs-color-picker-picker-margin: 0 3px 0 0;*/
+   /*   --tjs-color-picker-picker-height: 54px;*/
+   /*   --tjs-color-picker-picker-width: 54px;*/
+   /*   --tjs-color-picker-picker-border-radius: 5px;*/
+   /*   --tjs-color-picker-slider-margin: 0 3px 0 0;*/
+   /*   --tjs-color-picker-slider-height: 54px;*/
+   /*   --tjs-color-picker-slider-width: 10px;*/
+   /*   --tjs-color-picker-wrapper-background: rgba(0, 0, 0, 0.2);*/
+   /*   --tjs-color-picker-wrapper-padding: 3px 0 0 3px;*/
+   /*   --tjs-color-picker-wrapper-margin: 0;*/
+   /*   --tjs-color-picker-wrapper-border-radius: 8px;*/
+   /*   --tjs-color-picker-wrapper-height: 62px;*/
+   /*   --tjs-color-picker-wrapper-width: fit-content;*/
+   /*}*/
 
    main {
       --tjs-color-picker-wrapper-background: rgba(0, 0, 0, 0.2);

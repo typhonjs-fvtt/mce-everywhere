@@ -1,5 +1,5 @@
 <script>
-   import { TJSColorPicker }  from '@typhonjs-fvtt/svelte-standard/component';
+   import { TJSColordPicker }  from '@typhonjs-fvtt/svelte-standard/component';
 
    import PickerIndicator  from './PickerIndicator.svelte';
    import SliderIndicator  from './SliderIndicator.svelte';
@@ -18,4 +18,4 @@
    }
 </script>
 
-<TJSColorPicker bind:color {options} />
+<TJSColordPicker bind:color {options} />
