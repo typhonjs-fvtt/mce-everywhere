@@ -86,7 +86,9 @@ export default () =>
 
       plugins: [
          svelte({
-            preprocess: preprocess(),
+            // prebundleSvelteLibraries: true,
+
+            preprocess: preprocess(), // Can remove preprocess most likely
             onwarn: (warning, handler) =>
             {
                // Suppress `a11y-missing-attribute` for missing href in <a> links.

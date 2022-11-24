@@ -1,7 +1,7 @@
 <script>
    import { localize }        from '@typhonjs-fvtt/runtime/svelte/helper';
 
-   // import MceColorPicker      from './picker/MceColorPicker.svelte';
+   import MceColorPicker      from './picker/MceColorPicker.svelte';
 
    import { themeStore }      from '../model';
 
@@ -18,7 +18,7 @@
       format: 'hsl',
       formatType: 'string',
       isAlpha: true,
-      isPopup: true,
+      isPopup: false,
       isTextInput: true,
       precision: 0,
       width: 250
@@ -42,10 +42,10 @@
 </script>
 
 <div>
-<!--   <section class=tjs-settings-entry>-->
-<!--      <span>{localize('mce-everywhere.settings.theme.toolbar-background')}</span>-->
-<!--      <MceColorPicker bind:color={$toolbarBackground} />-->
-<!--   </section>-->
+   <section class=tjs-settings-entry>
+      <span>{localize('mce-everywhere.settings.theme.toolbar-background')}</span>
+      <MceColorPicker bind:color={$toolbarBackground} />
+   </section>
 
 <!--   <section class=tjs-settings-entry>-->
 <!--      <span>{localize('mce-everywhere.settings.theme.toolbar-button-hover-background-color')}</span>-->
@@ -123,21 +123,22 @@
       flex: 2;
    }
 
-   /*div {*/
-   /*   --tjs-color-picker-picker-margin: 0 3px 0 0;*/
-   /*   --tjs-color-picker-picker-height: 54px;*/
-   /*   --tjs-color-picker-picker-width: 54px;*/
-   /*   --tjs-color-picker-picker-border-radius: 5px;*/
-   /*   --tjs-color-picker-slider-margin: 0 3px 0 0;*/
-   /*   --tjs-color-picker-slider-height: 54px;*/
-   /*   --tjs-color-picker-slider-width: 10px;*/
-   /*   --tjs-color-picker-wrapper-background: rgba(0, 0, 0, 0.2);*/
-   /*   --tjs-color-picker-wrapper-padding: 3px 0 0 3px;*/
-   /*   --tjs-color-picker-wrapper-margin: 0;*/
-   /*   --tjs-color-picker-wrapper-border-radius: 8px;*/
-   /*   --tjs-color-picker-wrapper-height: 62px;*/
-   /*   --tjs-color-picker-wrapper-width: fit-content;*/
-   /*}*/
+   div {
+      --tjs-color-picker-wrapper-background: rgba(0, 0, 0, 0.2);
+
+      /*--tjs-color-picker-picker-margin: 0 3px 0 0;*/
+      /*--tjs-color-picker-picker-height: 54px;*/
+      /*--tjs-color-picker-picker-width: 54px;*/
+      /*--tjs-color-picker-picker-border-radius: 5px;*/
+      /*--tjs-color-picker-slider-margin: 0 3px 0 0;*/
+      /*--tjs-color-picker-slider-height: 54px;*/
+      /*--tjs-color-picker-slider-width: 10px;*/
+      /*--tjs-color-picker-wrapper-padding: 3px 0 0 3px;*/
+      /*--tjs-color-picker-wrapper-margin: 0;*/
+      /*--tjs-color-picker-wrapper-border-radius: 8px;*/
+      /*--tjs-color-picker-wrapper-height: 62px;*/
+      /*--tjs-color-picker-wrapper-width: fit-content;*/
+   }
 
    main {
       --tjs-color-picker-wrapper-background: rgba(0, 0, 0, 0.2);
