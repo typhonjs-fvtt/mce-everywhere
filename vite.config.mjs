@@ -53,12 +53,12 @@ export default () =>
       // is necessary to reference the dev resources as the root is `/src` and there is no public / static resources
       // served.
       server: {
-         port: 30001,
+         port: 30002,
          open: '/game',
          proxy: {
-            '^(/modules/mce-everywhere/lang)': 'http://localhost:30000',
-            '^(?!/modules/mce-everywhere/)': 'http://localhost:30000',
-            '/socket.io': { target: 'ws://localhost:30000', ws: true }
+            '^(/modules/mce-everywhere/lang)': 'http://localhost:30001',
+            '^(?!/modules/mce-everywhere/)': 'http://localhost:30001',
+            '/socket.io': { target: 'ws://localhost:30001', ws: true }
          },
          fs: { strict: false }
       },

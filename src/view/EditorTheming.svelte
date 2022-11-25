@@ -7,6 +7,9 @@
 
    import { TJSColordPicker }  from '@typhonjs-fvtt/svelte-standard/component';
 
+   import ZZZContainer from "./ZZZContainer.svelte";
+   import ZZZTest from "./ZZZTest.svelte";
+
    const {
       toolbarBackground,
       toolbarButtonBackgroundHover,
@@ -107,6 +110,10 @@
 <!--   <TJSColordPicker bind:color options={options2} />-->
 <!--&lt;!&ndash;   <TJSColorPicker options={options2} />&ndash;&gt;-->
 <!--</main>-->
+
+<ZZZContainer>
+   <ZZZTest />
+</ZZZContainer>
 
 <style>
    input { /*}, select { */
