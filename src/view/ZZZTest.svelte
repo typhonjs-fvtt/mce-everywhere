@@ -11,19 +11,13 @@
       background: green;
    }
 
-   @media (max-width: 1000px) {
-      div {
-         background: deeppink;
-      }
-   }
-
-   @container main (min-width: 0) {
+   @container main (width <= 500px) {
       div {
          background: blue;
       }
    }
 
-   @container main (min-width: 200px) {
+   @container main (width > 600px) {
       div {
          background: red;
       }
