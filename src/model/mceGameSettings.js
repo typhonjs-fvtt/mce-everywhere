@@ -42,11 +42,16 @@ class MceGameSettings extends TJSGameSettings
          restricted: true,
       });
 
-      // Add custom section component to end of settings.
-      this.uiControl.addSection({
-         folder: 'mce-everywhere.app.settings.folders.editor-theming',
-         class: EditorTheming
-      })
+      if (document)
+
+      // Add custom section component to end of settings for theming options if container queries are available.
+      if ('container' in document.documentElement.style)
+      {
+         this.uiControl.addSection({
+            folder: 'mce-everywhere.app.settings.folders.editor-theming',
+            class: EditorTheming
+         })
+      }
 
       // Top level ---------------------------------------------------------------------------------------------------
 
