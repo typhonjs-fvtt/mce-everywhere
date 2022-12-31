@@ -6,9 +6,7 @@
    import { themeStore }      from '../model';
 
    import { TJSColordPicker }  from '@typhonjs-fvtt/svelte-standard/component';
-
-   import ZZZContainer from "./ZZZContainer.svelte";
-   import ZZZTest from "./ZZZTest.svelte";
+   import { TJSColordPickerSavedColors }  from '@typhonjs-fvtt/svelte-standard/component';
 
    const {
       toolbarBackground,
@@ -18,30 +16,36 @@
    } = themeStore.stores;
 
    const options2 = {
+      addons: [TJSColordPickerSavedColors],
       format: 'hsl',
       formatType: 'string',
-      isAlpha: true,
-      isPopup: false,
-      isTextInput: true,
+      hasAddons: true,
+      hasAlpha: true,
+      hasButtonBar: true,
+      hasTextInput: true,
+      isPopup: true,
+      lockTextFormat: false,
       precision: 0,
-      width: 250
-   }
+      width: 80
+   };
 
    // $: console.log(`! EditorTheming - $toolbarBackground: `, $toolbarBackground)
 
    // let color = '#ff0000';
    // let color = 'rgba(255, 50, 50, 0.5)';
    // let color = 'hsla(240, 50%, 100%, 0.5)';
-   // let color = 'hwb(194 0% 0% / .5)';
+   // let color = { h: 180, s: 100, v: 100, a: 0.35 };
 
    // let color = 'hsla(-0.25turn 50% 100% / 0.5)';
    // let color = 'hsla(-0.25456565656turn 99.456546456456% 50% / 0.5)';
 
-   let color = 'hsl(240 100% 50% / 0.5)';
    // let color = 'hsl(240, 100%, 50%, 0.5)';
    // let color = 'hsla(240, 50%, 99%, 0.5)';
 
    // let color = void 0;
+
+   let color = 'hsl(240 100% 50% / 0.5)';
+
 </script>
 
 <div>
@@ -69,10 +73,14 @@
 
    <section class=tjs-settings-entry>
       <main>
+         <label>Text Input:<input type=checkbox bind:checked={options2.hasTextInput}></label>
+         <label>Button Bar:<input type=checkbox bind:checked={options2.hasButtonBar}></label>
+         <label>Addons:<input type=checkbox bind:checked={options2.hasAddons}></label>
+
          <label>Chrome Layout:<input type=checkbox on:change={(e) => options2.layout = e.target.checked ? 'chrome' : void 0}></label>
-         <label>Enable Alpha:<input type=checkbox bind:checked={options2.isAlpha}></label>
+         <label>Enable Alpha:<input type=checkbox bind:checked={options2.hasAlpha}></label>
+         <label>Lock Text Format:<input type=checkbox bind:checked={options2.lockTextFormat}></label>
          <label>Popup:<input type=checkbox bind:checked={options2.isPopup}></label>
-         <label>Text Input:<input type=checkbox bind:checked={options2.isTextInput}></label>
       </main>
    </section>
 
@@ -93,7 +101,7 @@
             </select>
          </label>
          <label>Precision: <input type=range min=0 max=10 bind:value={options2.precision} style="width: 100px"></label>
-         <label>Width: <input type=range min=50 max=400 bind:value={options2.width} style="width: 100px"></label>
+         <label>Width: <input type=range min=50 max=400 bind:value={options2.width} style="width: 100px"> ({options2.width})</label>
       </main>
    </section>
 
@@ -103,24 +111,27 @@
 
 <main>
    <TJSColordPicker bind:color options={options2} />
-<!--   <TJSColorPicker options={options2} />-->
+   <TJSColordPicker bind:color options={options2} />
 </main>
 
 <!--<main>-->
 <!--   <TJSColordPicker bind:color options={options2} />-->
-<!--&lt;!&ndash;   <TJSColorPicker options={options2} />&ndash;&gt;-->
 <!--</main>-->
 
-<ZZZContainer>
-   <ZZZTest />
-</ZZZContainer>
-
 <style>
-   input { /*}, select { */
-      margin: 0 8px;
+   input {
+   margin: 0 8px;
       vertical-align: bottom;
       position: relative;
       top: 1px;
+   }
+
+   input[type=range] {
+      vertical-align: center;
+   }
+
+   select {
+      color: #b5b3a4
    }
 
    span {
@@ -132,23 +143,14 @@
 
    div {
       --tjs-color-picker-wrapper-background: rgba(0, 0, 0, 0.2);
-
-      /*--tjs-color-picker-picker-margin: 0 3px 0 0;*/
-      /*--tjs-color-picker-picker-height: 54px;*/
-      /*--tjs-color-picker-picker-width: 54px;*/
-      /*--tjs-color-picker-picker-border-radius: 5px;*/
-      /*--tjs-color-picker-slider-margin: 0 3px 0 0;*/
-      /*--tjs-color-picker-slider-height: 54px;*/
-      /*--tjs-color-picker-slider-width: 10px;*/
-      /*--tjs-color-picker-wrapper-padding: 3px 0 0 3px;*/
-      /*--tjs-color-picker-wrapper-margin: 0;*/
-      /*--tjs-color-picker-wrapper-border-radius: 8px;*/
-      /*--tjs-color-picker-wrapper-height: 62px;*/
-      /*--tjs-color-picker-wrapper-width: fit-content;*/
    }
 
    main {
+      --tjs-color-picker-container-width: 90%;
       --tjs-color-picker-wrapper-background: rgba(0, 0, 0, 0.2);
+
+      display: flex;
+      justify-content: space-between;
    }
 
    section {

@@ -118,7 +118,7 @@ class ThemeStore
     */
    set(theme)
    {
-      if (!this.#validateThemeData(theme)) { theme = Object.assign({}, this.#initialThemeData); }
+     if (!this.#validateThemeData(theme)) { theme = Object.assign({}, this.#initialThemeData); }
 
       for (const key of this.#keys)
       {

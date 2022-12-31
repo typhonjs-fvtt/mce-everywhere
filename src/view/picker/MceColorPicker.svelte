@@ -6,7 +6,7 @@
    const options = {
       isTextInput: false,
       isPopup: false,
-      width: 80,
+      width: 80
    }
 </script>
 

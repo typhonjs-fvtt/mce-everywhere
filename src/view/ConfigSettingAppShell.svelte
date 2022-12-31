@@ -1,20 +1,20 @@
 <svelte:options accessors={true} />
 
 <script>
-   import { getContext }         from 'svelte';
+   import { getContext }            from 'svelte';
 
-   import { ApplicationShell }   from '@typhonjs-fvtt/runtime/svelte/component/core';
-   import { debounce }           from '@typhonjs-fvtt/runtime/svelte/util';
+   import { TJSApplicationShell }   from '@typhonjs-fvtt/runtime/svelte/component/core';
+   import { debounce }              from '@typhonjs-fvtt/runtime/svelte/util';
 
-   import { TJSSettingsEdit }    from '@typhonjs-fvtt/svelte-standard/component';
+   import { TJSSettingsEdit }       from '@typhonjs-fvtt/svelte-standard/component';
 
-   import SettingsFooter         from './SettingsFooter.svelte';
+   import SettingsFooter            from './SettingsFooter.svelte';
 
    import {
       mceGameSettings,
-      mceSessionStorage }        from '../model/index.js';
+      mceSessionStorage }           from '../model/index.js';
 
-   import { sessionConstants }   from '../constants.js';
+   import { sessionConstants }      from '../constants.js';
 
    export let elementRoot;
 
@@ -33,8 +33,8 @@
    $: storePosition($position);
 </script>
 
-<ApplicationShell bind:elementRoot>
+<TJSApplicationShell bind:elementRoot>
    <TJSSettingsEdit settings={mceGameSettings} options={{ storage: mceSessionStorage }}>
       <SettingsFooter slot=settings-footer />
    </TJSSettingsEdit>
-</ApplicationShell>
+</TJSApplicationShell>
