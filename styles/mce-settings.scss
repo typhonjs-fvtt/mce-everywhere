@@ -1,9 +1,8 @@
 #mce-everywhere-settings {
-  //min-width: 300px;
-  //min-height: 200px;
-  //max-height: 750px;
+  --tjs-anchor-text-shadow-focus-hover: 0 0 8px pink;
+  --tjs-comp-outline-focus-visible: dashed red;
 
-  .window-app {
+  .tjs-window-app {
     overflow: visible;
   }
 
@@ -12,11 +11,6 @@
     color: #b5b3a4;
     overflow: inherit;
     padding: 0;
-  }
-
-  // Reverse universal selector set for `.window-app .window-content > *`.
-  .window-content > * {
-    flex: unset;
   }
 
   // Variables for TJSSettingsEdit via TJSSettingsSwap.
@@ -35,12 +29,12 @@
   }
 
   // Light / normal theme
-  &.window-app {
+  &.tjs-window-app {
     --tjs-action-ripple-background: linear-gradient(64.5deg, rgba(245, 116, 185, 1) 40%, rgba(89, 97, 223, 1) 60% );
 
     --tjs-icon-button-background-hover: rgba(255, 255, 255, 0.05);
     --tjs-icon-button-background-selected: rgba(255, 255, 255, 0.1);
-    --tjs-icon-button-diameter: 1.75em;
+    --tjs-icon-button-diameter: 2em;
 
     ::-webkit-scrollbar {
       width: 6px;
@@ -58,10 +52,6 @@
     }
 
     scrollbar-color: rgba(89, 97, 223, 1) #111;
-
-    a:hover {
-      text-shadow: 0 0 8px pink;
-    }
 
     input::placeholder {
       color: #666;
