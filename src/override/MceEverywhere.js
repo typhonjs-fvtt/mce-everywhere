@@ -78,7 +78,12 @@ export class MceEverywhere
          // `ui.windows` has an editor. This is not the case usually.
          if (options.target?.dataset?.engine !== 'tinymce')
          {
-            globalThis.ui.notifications.warn('mce-everywhere.notifications.editor-mismatch', { localize: true });
+            // Skip warning for TRL TJSTinyMCE editor component
+            if (!options.target?.classList?.contains('tjs-editor-content'))
+            {
+               globalThis.ui.notifications.warn('mce-everywhere.notifications.editor-mismatch', { localize: true });
+            }
+
             return origTextEditorCreateFn.call(TextEditor, options, content);
          }
 
