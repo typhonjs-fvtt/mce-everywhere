@@ -1,4 +1,5 @@
-import { FontManager }           from '../model';
+import { FontManager }           from '@typhonjs-fvtt/svelte-standard/fvtt';
+
 import { MceConfig }             from './MceConfig.js';
 import { MceDraggable }          from './MceDraggable.js';
 import { MceImpl }               from './MceImpl.js';

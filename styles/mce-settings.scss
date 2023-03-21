@@ -1,6 +1,7 @@
 #mce-everywhere-settings {
   --tjs-default-text-shadow-focus-hover: 0 0 8px pink;
-  --tjs-comp-outline-focus-visible: 4px dotted orange;
+  --tjs-default-outline-focus-visible: 4px dotted orange;
+  --tjs-default-transition-focus-visible: box-shadow 0.2s ease-in-out, outline 0.2s ease-in-out;
 
   .tjs-window-app {
     overflow: visible;
@@ -21,20 +22,16 @@
     --tjs-settings-section-border-radius: 0.75em;
     --tjs-settings-entry-hint-color: #99978b;
 
-    select > option {
-      background: rgb(66, 66, 70);
-    }
-
-    --tjs-summary-chevron-size: 1.25em;
+    --tjs-folder-summary-chevron-size: 1.25em;
   }
 
-  // Light / normal theme
   &.tjs-window-app {
     --tjs-action-ripple-background: linear-gradient(64.5deg, rgba(245, 116, 185, 1) 40%, rgba(89, 97, 223, 1) 60% );
 
     --tjs-icon-button-background-hover: rgba(255, 255, 255, 0.05);
     --tjs-icon-button-background-selected: rgba(255, 255, 255, 0.1);
-    --tjs-icon-button-diameter: 2em;
+
+    //--tjs-input-text-placeholder-color: #666;
 
     ::-webkit-scrollbar {
       width: 6px;
@@ -52,15 +49,6 @@
     }
 
     scrollbar-color: rgba(89, 97, 223, 1) #111;
-
-    input::placeholder {
-      color: #666;
-    }
-
-    /* Unset Foundry style */
-    select:focus {
-      box-shadow: unset;
-    }
 
     // For Firefox scrollbars
     .container {

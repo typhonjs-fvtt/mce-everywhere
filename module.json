@@ -2,11 +2,11 @@
   "id": "mce-everywhere",
   "title": "TinyMCE Everywhere!",
   "description": "Provides a module that enables TinyMCE for all editors.",
-  "author": "Michael Leahy (TyphonJS) - MLeahy#4299",
   "authors": [
     {
       "name": "Michael Leahy (TyphonJS) - MLeahy#4299",
-      "url": "https://www.typhonjs.io"
+      "url": "https://www.typhonjs.io",
+      "discord": "MLeahy#4299"
     }
   ],
   "url": "https://github.com/typhonjs-fvtt/mce-everywhere",
@@ -16,7 +16,7 @@
   "version": "0.0.0",
   "compatibility": {
     "minimum": "10",
-    "maximum": "10",
+    "maximum": "11",
     "verified": "10"
   },
   "esmodules": [

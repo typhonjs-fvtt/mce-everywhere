@@ -1,4 +1,4 @@
-import { FontManager }           from '../model/FontManager.js';
+import { FontManager }           from '@typhonjs-fvtt/svelte-standard/fvtt';
 
 import { constants, settings }   from '../constants.js';
 
