@@ -1,12 +1,20 @@
-import { TJSGameSettings }       from '@typhonjs-fvtt/svelte-standard/store';
+import { TJSThemeEditor }        from '@typhonjs-fvtt/svelte-standard/component';
 
-import { ConfigSettingButton }   from "../view/ConfigSettingButton.js";
-import EditorTheming             from '../view/EditorTheming.svelte';
+import {
+   TJSGameSettings,
+   TJSThemeStore }               from '@typhonjs-fvtt/svelte-standard/store';
+
+import { cssVariables }          from './cssVariables.js';
+import { themeStoreData }        from './themeStoreData.js';
+
+import { ConfigSettingButton }   from '../view/ConfigSettingButton.js';
 
 import { constants, settings }   from '../constants.js';
 
 class MceGameSettings extends TJSGameSettings
 {
+   #themeStore;
+
    constructor()
    {
       super(constants.moduleId);
@@ -14,6 +22,14 @@ class MceGameSettings extends TJSGameSettings
 
    init()
    {
+      this.#themeStore = new TJSThemeStore({
+         namespace: constants.moduleId,
+         key: settings.themeData,
+         gameSettings: this,
+         styleManager: cssVariables,
+         data: themeStoreData
+      });
+
       const namespace = this.namespace;
 
       /**
@@ -49,7 +65,10 @@ class MceGameSettings extends TJSGameSettings
       {
          this.uiControl.addSection({
             folder: 'mce-everywhere.app.settings.folders.editor-theming',
-            class: EditorTheming
+            class: TJSThemeEditor,
+            props: {
+               themeStore: this.#themeStore
+            }
          })
       }
 

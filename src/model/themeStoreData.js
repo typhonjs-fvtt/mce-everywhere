@@ -1,14 +1,4 @@
-import { TJSThemeStore }   from './TJSThemeStore.js';
-
-import { mceGameSettings } from './mceGameSettings.js';
-
-import { cssVariables }    from './cssVariables.js';
-
-import {
-   constants,
-   settings }              from '../constants.js';
-
-const data = [
+export const themeStoreData = [
    {
       label: 'mce-everywhere.settings.theme.toolbar-background',
       var: '--mce-everywhere-toolbar-background',
@@ -38,11 +28,3 @@ const data = [
       default: 'hsla(212, 29%, 19%, 0.5)'
    },
 ];
-
-export const themeStore = new TJSThemeStore({
-   namespace: constants.moduleId,
-   key: settings.themeData,
-   gameSettings: mceGameSettings,
-   styleManager: cssVariables,
-   data
-});

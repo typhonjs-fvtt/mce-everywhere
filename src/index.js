@@ -1,8 +1,6 @@
 import { MceEverywhere }   from './override/MceEverywhere.js';
 
-import {
-   mceGameSettings,
-   themeStore }            from './model/index.js';
+import { mceGameSettings } from './model/index.js';
 
 import {
    constants,
@@ -13,7 +11,6 @@ import '../styles/init.scss';
 Hooks.on('ready', () =>
 {
    mceGameSettings.init();
-   themeStore.init();
 
    document.getElementsByTagName('head')[0].append(Object.assign(document.createElement('link'), {
       href: 'modules/mce-everywhere/style.css',
