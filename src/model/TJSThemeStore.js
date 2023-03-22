@@ -3,26 +3,17 @@ import { getFormat }       from '@typhonjs-fvtt/runtime/color/colord';
 import { propertyStore }   from '@typhonjs-fvtt/runtime/svelte/store';
 
 import {
+   isIterable,
    isObject,
    StyleManager }          from '@typhonjs-fvtt/runtime/svelte/util';
 
 import { TJSGameSettings } from '@typhonjs-fvtt/svelte-standard/store';
 
-/**
- * @typedef {object} ThemeStores
- *
- * @property {import('svelte/store').Writable<string|null>} toolbarBackground -
- *
- * @property {import('svelte/store').Writable<string|null>} toolbarButtonBackgroundHover -
- *
- * @property {import('svelte/store').Writable<string|null>} toolbarDisabledFontColor -
- *
- * @property {import('svelte/store').Writable<string|null>} toolbarFontColor -
- *
- */
-
 export class TJSThemeStore
 {
+   /** @tyoe {object[]} */
+   #components;
+
    #defaultThemeData;
 
    #initialThemeData;
@@ -31,19 +22,12 @@ export class TJSThemeStore
 
    #data = {};
 
-   #keys = [
-      '--mce-everywhere-toolbar-background',
-      '--mce-everywhere-toolbar-button-background-hover',
-      '--mce-everywhere-toolbar-disabled-font-color',
-      '--mce-everywhere-toolbar-font-color',
-   ];
-
-   #keyStores = {
-      '--mce-everywhere-toolbar-background': 'toolbarBackground',
-      '--mce-everywhere-toolbar-button-background-hover': 'toolbarButtonBackgroundHover',
-      '--mce-everywhere-toolbar-disabled-font-color': 'toolbarDisabledFontColor',
-      '--mce-everywhere-toolbar-font-color': 'toolbarFontColor',
-   };
+   /**
+    * Stores all of the CSS variable keys.
+    *
+    * @type {string[]}
+    */
+   #vars;
 
    /**
     * Stores the subscribers.
@@ -70,6 +54,8 @@ export class TJSThemeStore
     *
     * @param {StyleManager} options.styleManager - An associated StyleManager instance to manipulate CSS variables.
     *
+    * @param {object[]} options.data - Data defining CSS theme variables.
+    *
     */
    constructor(options)
    {
@@ -89,9 +75,22 @@ export class TJSThemeStore
          throw new TypeError(`'styleManager' is not an instance of StyleManager.`);
       }
 
-      this.#opts = Object.assign({}, options);
+      if (!(options.styleManager instanceof StyleManager))
+      {
+         throw new TypeError(`'styleManager' is not an instance of StyleManager.`);
+      }
 
-      console.log(`!! TJSThemeStore - ctor - this.#opts: `, this.#opts);
+      if (!isIterable(options.data)) { throw new TypeError(`'data' is not an iterable list. `); }
+
+      this.#opts = Object.assign({}, options);
+   }
+
+   /**
+    * @returns {object[]}
+    */
+   get components()
+   {
+      return this.#components;
    }
 
    /**
@@ -104,13 +103,30 @@ export class TJSThemeStore
 
    init()
    {
+      this.#components = [];
+      this.#vars = [];
+
       this.#defaultThemeData = this.#selectDefaultData();
       this.#initialThemeData = Object.assign({}, this.#defaultThemeData);
 
-      for (const key of this.#keys)
+      // Process vars data.
+      for (const entry of this.#opts.data)
       {
-         // this.#data[key] = this.#defaultThemeData[key];
-         this.#stores[this.#keyStores[key]] = propertyStore(this, key);
+         // TODO: Validate data
+
+         // Add var key if defined.
+         if (typeof entry.var === 'string')
+         {
+            const key = entry.var;
+
+            this.#vars.push(key);
+            this.#stores[key] = propertyStore(this, key);
+            this.#components.push(Object.assign({}, entry, { store: this.#stores[key] }));
+         }
+         else
+         {
+            this.#components.push(Object.assign({}, entry));
+         }
       }
 
       this.#settingsStoreHandler = this.#opts.gameSettings.register({
@@ -159,7 +175,7 @@ export class TJSThemeStore
    {
      if (!this.#validateThemeData(theme)) { theme = Object.assign({}, this.#initialThemeData); }
 
-      for (const key of this.#keys)
+      for (const key of this.#vars)
       {
          const keyData = theme[key];
 
@@ -189,7 +205,7 @@ export class TJSThemeStore
          return false;
       }
 
-      for (const key of this.#keys)
+      for (const key of this.#vars)
       {
          const data = themeData[key];
 
