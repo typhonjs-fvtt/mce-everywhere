@@ -5,7 +5,7 @@ import {
    TJSThemeStore }               from '@typhonjs-fvtt/svelte-standard/store';
 
 import { cssVariables }          from './cssVariables.js';
-import { themeStoreData }        from './themeStoreData.js';
+import { themeStoreConfig }      from './themeStoreConfig.js';
 
 import { ConfigSettingButton }   from '../view/ConfigSettingButton.js';
 
@@ -27,7 +27,7 @@ class MceGameSettings extends TJSGameSettings
          key: settings.themeData,
          gameSettings: this,
          styleManager: cssVariables,
-         data: themeStoreData
+         config: themeStoreConfig
       });
 
       const namespace = this.namespace;
