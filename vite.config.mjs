@@ -24,7 +24,7 @@ const s_SOURCEMAPS = true; // Generate sourcemaps for the bundle (recommended).
 // Used in bundling particularly during development. If you npm-link packages to your project add them here.
 const s_RESOLVE_CONFIG = {
    browser: true,
-   dedupe: ['svelte', '@typhonjs-fvtt/runtime', '@typhonjs-fvtt/svelte-standard']
+   dedupe: ['svelte', '@typhonjs-fvtt/runtime', '@typhonjs-fvtt/svelte-standard', 'svelte-hmr']
 };
 
 export default () =>
@@ -81,6 +81,13 @@ export default () =>
             entry: './index.js',
             formats: ['es'],
             fileName: 'index'
+         }
+      },
+
+      // Necessary when using the dev server for top-level await usage inside TRL.
+      optimizeDeps: {
+         esbuildOptions: {
+            target: 'es2022'
          }
       },
 
