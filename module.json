@@ -22,6 +22,12 @@
   "esmodules": [
     "index.js"
   ],
+  "flags": {
+    "hotReload": {
+      "extensions": ["json"],
+      "paths": ["lang"]
+    }
+  },
   "languages": [
     {
       "lang": "en",
