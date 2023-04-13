@@ -60,8 +60,6 @@ export class MceEverywhere
       // Hard override `TextEditor.create` to fully control the editor creation.
       TextEditor.create = async (options, content) =>
       {
-         // const journalEnabled = game.settings.get(constants.moduleId, settings.journalenabled);
-
          const isJournal = options.target.classList.contains('journal-page-content');
          const journalEnabled = MceEverywhere.#isJournalEnabled();
          const onlyJournalEnabled = MceEverywhere.#isOnlyJournalEnabled();
@@ -107,7 +105,23 @@ export class MceEverywhere
 
          const app = globalThis.ui.windows[appId];
 
-         const config = MceConfig.configExtra({ help: game.settings.get(constants.moduleId, settings.help) });
+         // Note: On v11 Adventure documents have saving disabled when editing adventure. Detect if the document is an
+         // adventure and disable saving accordingly.
+         // ----------------------------------------------------------------------------------------------------------
+         let canSave = true;
+
+         const adventureClass = CONFIG?.Adventure?.documentClass;
+         if (options.document && adventureClass && options.document instanceof adventureClass)
+         {
+            canSave = false;
+         }
+
+         // Get MCE configuration object -----------------------------------------------------------------------------
+
+         const config = MceConfig.configExtra({
+            help: game.settings.get(constants.moduleId, settings.help),
+            save: canSave
+         });
 
          const { fonts, fontFormats } = MceImpl.getFontData();
 
@@ -119,6 +133,23 @@ export class MceEverywhere
             paste_preprocess: (unused, args) => MceImpl.pastePreprocess(editor, args),
             engine: 'tinymce',
          };
+
+         // Special options handling ---------------------------------------------------------------------------------
+
+         // Note: On v11 certain core apps like BaseSheet, DocumentSheet, AdventureExporter overload `activateEditor`
+         // and explicitly sets `options.plugins` to an object with hardcoded ProseMirror plugins.
+         if (typeof options.plugins !== 'string' && !Array.isArray(options.plugins))
+         {
+            options.plugins = config.plugins;
+         }
+
+         // Replace save callback saving is disabled (Adventure documents). This prevents the key combo for saving.
+         if (!canSave)
+         {
+            options.save_onsavecallback = () => null;
+         }
+
+         // ----------------------------------------------------------------------------------------------------------
 
          const isJournalPage = options.target.classList.contains('journal-page-content');
 
@@ -199,24 +230,24 @@ export class MceEverywhere
     * Returns if `settings.location` for the toolbar replacement includes journals. Either `all` or `onlyJournals`
     * includes replacement in journals.
     *
-    * @returns {boolean}
+    * @returns {boolean} True, to replace editor in journals pages.
     */
    static #isJournalEnabled()
    {
-      const location = game.settings.get(constants.moduleId, settings.location);
-      return location === 'all' || location === 'onlyJournals';
+      const mceLocation = game.settings.get(constants.moduleId, settings.location);
+      return mceLocation === 'all' || mceLocation === 'onlyJournals';
    }
 
    /**
     * Returns if `settings.location` for the toolbar replacement is only for journals. `onlyJournals`
     * includes replacement only in journals.
     *
-    * @returns {boolean}
+    * @returns {boolean} True, if only replacing editors in journals.
     */
    static #isOnlyJournalEnabled()
    {
-      const location = game.settings.get(constants.moduleId, settings.location);
-      return location === 'onlyJournals';
+      const mceLocation = game.settings.get(constants.moduleId, settings.location);
+      return mceLocation === 'onlyJournals';
    }
 
    static #setupJournal(options, editor, content, app, appEl)
