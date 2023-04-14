@@ -25,6 +25,8 @@ export class MceConfig
     *
     * @param {boolean}  [opts.help=false] - When true include help plugin / toolbar button.
     *
+    * @param {boolean}  [opts.highlightDocumentMatches=false] - When true include highlightDocumentMatches button.
+    *
     * @param {boolean}  [opts.save=true] - When true include save button.
     *
     * @param {boolean}  [opts.stripStyleFormat=true] - Strips any additional style formats added by other modules.
@@ -38,15 +40,15 @@ export class MceConfig
     * @returns {object} TinyMCE options
     */
    static configExtra({ basicFormats = false, code = true, contentCSS, contentStyle = '', fontFormat = true,
-    fontSize = true, help = false, save = true, stripStyleFormat = true, styleFormat = true, tjsStyles = true,
+    fontSize = true, help = false, highlightDocumentMatches = false, save = true, stripStyleFormat = true, styleFormat = true, tjsStyles = true,
      toolbar = true } = {})
    {
       const style_formats = this.#getStyleFormats(basicFormats, stripStyleFormat,
        tjsStyles ? this.#s_TJS_STYLE_FORMATS : []);
 
       const toolbarData = `${styleFormat ? 'styles |' : ''} fontfamily | ${fontSize ? 'fontsize |' : ''} table | ${
-       fontFormat ? 'formatgroup |' : ''} removeformat | insertgroup | bulletgroup${save ? ' | save' : ''}${
-        code ? ' | code' : ''}${help ? ' | help' : ''}`;
+       fontFormat ? 'formatgroup |' : ''} removeformat | insertgroup | bulletgroup${highlightDocumentMatches ? 
+        ' | highlightDocumentMatches' : ''}${save ? ' | save' : ''}${code ? ' | code' : ''}${help ? ' | help' : ''}`;
 
       const config = {
          plugins: `emoticons image link lists charmap table ${code ? 'code' : ''} save ${help ? 'help' : ''}`,
@@ -110,6 +112,8 @@ export class MceConfig
     *
     * @param {boolean}  [opts.help=false] - When true include help plugin / toolbar button.
     *
+    * @param {boolean}  [opts.highlightDocumentMatches=false] - When true include highlightDocumentMatches button.
+    *
     * @param {boolean}  [opts.save=true] - When true include save button.
     *
     * @param {boolean}  [opts.stripStyleFormat=true] - Strips any additional style formats added by other modules.
@@ -123,7 +127,7 @@ export class MceConfig
     * @returns {object} TinyMCE options
     */
    static configStandard({ basicFormats = false, code = true, contentCSS, contentStyle = '', fontFormat = true,
-    fontSize = false, help = false, save = true, stripStyleFormat = true, styleFormat = true, tjsStyles = false,
+    fontSize = false, help = false, highlightDocumentMatches = false, save = true, stripStyleFormat = true, styleFormat = true, tjsStyles = false,
      toolbar = true } = {})
    {
       const style_formats = this.#getStyleFormats(basicFormats, stripStyleFormat,
@@ -131,7 +135,8 @@ export class MceConfig
 
       const toolbarData = `${styleFormat ? 'styles |' : ''} ${fontFormat ? 'fontfamily |' : ''} ${
         fontSize ? 'fontsize |' : ''} table | bullist | numlist | image | hr | link | removeformat${
-         save ? ' | save' : ''}${code ? ' | code' : ''}${help ? ' | help' : ''}`;
+         highlightDocumentMatches ? ' | highlightDocumentMatches' : ''}${save ? ' | save' : ''}${
+          code ? ' | code' : ''}${help ? ' | help' : ''}`;
 
       const config = {
          content_css: Array.isArray(contentCSS) ? CONFIG.TinyMCE.content_css.concat(contentCSS) :

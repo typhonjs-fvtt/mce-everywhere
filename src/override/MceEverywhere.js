@@ -4,6 +4,8 @@ import { MceConfig }             from './MceConfig.js';
 import { MceDraggable }          from './MceDraggable.js';
 import { MceImpl }               from './MceImpl.js';
 
+import * as Plugins              from "../plugin/index.js";
+
 import { constants, settings }   from '../constants.js';
 
 export class MceEverywhere
@@ -116,10 +118,13 @@ export class MceEverywhere
             canSave = false;
          }
 
+         const highlightDocumentMatches = typeof options?.plugins?.highlightDocumentMatches === 'object';
+
          // Get MCE configuration object -----------------------------------------------------------------------------
 
          const config = MceConfig.configExtra({
             help: game.settings.get(constants.moduleId, settings.help),
+            highlightDocumentMatches,
             save: canSave
          });
 
@@ -147,6 +152,20 @@ export class MceEverywhere
          if (!canSave)
          {
             options.save_onsavecallback = () => null;
+         }
+
+         // Only modify `options.setup` if highlight document matches is enabled.
+         if (highlightDocumentMatches)
+         {
+            const existingSetup = options.setup;
+
+            options.setup = (mceEditor) =>
+            {
+               Plugins.HighlightMatches.init(mceEditor);
+
+               // Execute any existing options.setup function.
+               if (typeof existingSetup === 'function') { existingSetup(mceEditor); }
+            };
          }
 
          // ----------------------------------------------------------------------------------------------------------
