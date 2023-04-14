@@ -23,6 +23,7 @@ const settings = {
    clientenabled: 'clientenabled',
    cursor: 'cursor',
    help: 'help',
+   highlightDocumentMatches: `highlightDocumentMatches`,
    location: 'location',
    themeData: 'themeData',
    toolbar: 'toolbar'
@@ -46,6 +47,8 @@ export { constants, sessionConstants, settings };
  * @property {string} cursor - Sets the cursor position when editor is initialized.
  *
  * @property {string} help - Adds a help button to the editor toolbar.
+ *
+ * @property {string} highlightDocumentMatches - Defines default enabled state for the highlight matches "plugin".
  *
  * @property {string} location - Defines where MCE Everywhere replaces the editor; all, only journals, not journals.
  *

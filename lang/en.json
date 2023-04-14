@@ -33,6 +33,7 @@
         "name": "Enable TinyMCE Everywhere! (client):",
         "hint": "Provides a client setting to enable / disable TinyMCE Everywhere! for the current user."
       },
+
       "location": {
         "name": "Editor location:",
         "hint": "Sets the location where TinyMCE Everywhere is the default / only editor available. For instance setting 'All' will make all text editors TinyMCE. Note: changing this setting renders all open apps again.",
@@ -41,19 +42,6 @@
           "onlyJournals": "Only Journals",
           "notJournals": "Not Journals"
         }
-      },
-
-      "cursor": {
-        "name": "Initial cursor location:",
-        "hint": "Defines the placement of the cursor on editor initialization.",
-        "choices": {
-          "start": "Start",
-          "end": "End"
-        }
-      },
-      "help": {
-        "name": "Add toolbar help button:",
-        "hint": "Enables a help button in the editor toolbar for users unfamiliar w/ TinyMCE."
       },
       "toolbar": {
         "name": "Toolbar type:",
@@ -64,6 +52,22 @@
           "extended": "Extended",
           "default": "Default"
         }
+      },
+      "cursor": {
+        "name": "Initial cursor location:",
+        "hint": "Defines the placement of the cursor on editor initialization.",
+        "choices": {
+          "start": "Start",
+          "end": "End"
+        }
+      },
+      "highlight-document-matches": {
+        "name": "Default Highlight Document Matches:",
+        "hint": "Sets the default enabled state of highlight document matches on editor initialization."
+      },
+      "help": {
+        "name": "Add toolbar help button:",
+        "hint": "Enables a help button in the editor toolbar for users unfamiliar w/ TinyMCE."
       },
 
       "theme": {
