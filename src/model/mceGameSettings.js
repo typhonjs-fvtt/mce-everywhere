@@ -22,15 +22,15 @@ class MceGameSettings extends TJSGameSettings
 
    init()
    {
+      const namespace = this.namespace;
+
       this.#themeStore = new TJSThemeStore({
-         namespace: constants.moduleId,
+         namespace,
          key: settings.themeData,
          gameSettings: this,
          styleManager: cssVariables,
          config: themeStoreConfig
       });
-
-      const namespace = this.namespace;
 
       /**
        * Constants for setting scope type.
@@ -45,7 +45,8 @@ class MceGameSettings extends TJSGameSettings
       const allSettings = [];
 
       // Add a convenience hook to open settings from macro.
-      Hooks.on('mce-everywhere:open:settings', () => {
+      Hooks.on('mce-everywhere:open:settings', () =>
+      {
          if (game.user.isGM) { ConfigSettingButton.showSettings(); }
       });
 
@@ -58,8 +59,6 @@ class MceGameSettings extends TJSGameSettings
          restricted: true,
       });
 
-      if (document)
-
       // Add custom section component to end of settings for theming options if container queries are available.
       if ('container' in document.documentElement.style)
       {
@@ -69,7 +68,7 @@ class MceGameSettings extends TJSGameSettings
             props: {
                themeStore: this.#themeStore
             }
-         })
+         });
       }
 
       // Top level ---------------------------------------------------------------------------------------------------
@@ -88,9 +87,12 @@ class MceGameSettings extends TJSGameSettings
          }
       });
 
+      // Editor Settings ---------------------------------------------------------------------------------------------
+
       allSettings.push({
          namespace,
          key: settings.location,
+         folder: 'mce-everywhere.app.settings.folders.editor-settings',
          options: {
             name: 'mce-everywhere.settings.location.name',
             hint: 'mce-everywhere.settings.location.hint',
@@ -118,8 +120,6 @@ class MceGameSettings extends TJSGameSettings
             }
          }
       });
-
-      // Editor Settings ---------------------------------------------------------------------------------------------
 
       allSettings.push({
          namespace,
@@ -156,6 +156,20 @@ class MceGameSettings extends TJSGameSettings
                start: 'mce-everywhere.settings.cursor.choices.start',
                end: 'mce-everywhere.settings.cursor.choices.end'
             }
+         }
+      });
+
+      allSettings.push({
+         namespace,
+         key: settings.highlightDocumentMatches,
+         folder: 'mce-everywhere.app.settings.folders.editor-settings',
+         options: {
+            name: 'mce-everywhere.settings.highlight-document-matches.name',
+            hint: 'mce-everywhere.settings.highlight-document-matches.hint',
+            scope: scope.world,
+            config: true,
+            default: false,
+            type: Boolean
          }
       });
 

@@ -22,7 +22,8 @@ export class ConfigSettingApp extends SvelteApplication
    /**
     *
     */
-   static get defaultOptions() {
+   static get defaultOptions()
+   {
       return foundry.utils.mergeObject(super.defaultOptions, {
          title: 'mce-everywhere.app.settings.title',
          id: 'mce-everywhere-settings',
