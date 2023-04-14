@@ -68,6 +68,7 @@
 .mce-everywhere .tox.tox-tinymce .tox-toolbar__primary {
   background: var(--mce-everywhere-toolbar-background, rgba(0, 0, 0, 0.1)) !important;
   border-radius: var(--mce-everywhere-toolbar-border-radius, 6px) !important;
+  flex-wrap: nowrap !important;
 }
 
 .mce-everywhere .tox.tox-tinymce .tox-toolbar__group {
