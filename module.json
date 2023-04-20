@@ -15,9 +15,9 @@
   "changelog": "https://github.com/typhonjs-fvtt/mce-everywhere/releases/latest/",
   "version": "0.0.0",
   "compatibility": {
-    "minimum": "10",
+    "minimum": "11",
     "maximum": "11",
-    "verified": "10"
+    "verified": "11"
   },
   "esmodules": [
     "index.js"
