@@ -1,3 +1,5 @@
+import { BrowserSupports }       from '@typhonjs-fvtt/runtime/svelte/util';
+
 import { TJSThemeEditor }        from '@typhonjs-fvtt/svelte-standard/component';
 
 import {
@@ -60,7 +62,7 @@ class MceGameSettings extends TJSGameSettings
       });
 
       // Add custom section component to end of settings for theming options if container queries are available.
-      if ('container' in document.documentElement.style)
+      if (BrowserSupports.containerQueries)
       {
          this.uiControl.addSection({
             folder: 'mce-everywhere.app.settings.folders.editor-theming',
