@@ -1,4 +1,4 @@
-import { debounce }              from '@typhonjs-fvtt/runtime/svelte/util';
+import { debounce }              from '#runtime/svelte/util';
 
 import { constants, settings }   from '../../constants.js';
 

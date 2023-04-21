@@ -1,7 +1,7 @@
 <script>
    import { onDestroy } from 'svelte';
 
-   import { localize }  from '@typhonjs-fvtt/runtime/svelte/helper';
+   import { localize }  from '#runtime/svelte/helper';
 
    let imageEl;
 

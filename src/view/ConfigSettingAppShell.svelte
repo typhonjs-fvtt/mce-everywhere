@@ -3,10 +3,10 @@
 <script>
    import { getContext }            from 'svelte';
 
-   import { TJSApplicationShell }   from '@typhonjs-fvtt/runtime/svelte/component/core';
-   import { debounce }              from '@typhonjs-fvtt/runtime/svelte/util';
+   import { TJSApplicationShell }   from '#runtime/svelte/component/core';
+   import { debounce }              from '#runtime/svelte/util';
 
-   import { TJSSettingsEdit }       from '@typhonjs-fvtt/svelte-standard/component';
+   import { TJSSettingsEdit }       from '#standard/component';
 
    import SettingsFooter            from './SettingsFooter.svelte';
 

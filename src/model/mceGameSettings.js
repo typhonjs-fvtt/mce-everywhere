@@ -1,10 +1,10 @@
-import { BrowserSupports }       from '@typhonjs-fvtt/runtime/svelte/util';
+import { BrowserSupports }       from '#runtime/svelte/util';
 
-import { TJSThemeEditor }        from '@typhonjs-fvtt/svelte-standard/component';
+import { TJSThemeEditor }        from '#standard/component';
 
 import {
    TJSGameSettings,
-   TJSThemeStore }               from '@typhonjs-fvtt/svelte-standard/store';
+   TJSThemeStore }               from '#standard/store';
 
 import { cssVariables }          from './cssVariables.js';
 import { themeStoreConfig }      from './themeStoreConfig.js';
