@@ -1,5 +1,5 @@
-import { StyleManager }    from '@typhonjs-fvtt/runtime/svelte/util';
+import { TJSStyleManager } from '@typhonjs-fvtt/runtime/svelte/util';
 
-const cssVariables = new StyleManager({ docKey: '#__mce-everywhere', version: 1 });
+const cssVariables = new TJSStyleManager({ docKey: '#__mce-everywhere', version: 1 });
 
 export { cssVariables };
