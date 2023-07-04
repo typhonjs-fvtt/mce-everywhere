@@ -1,10 +1,10 @@
-import { BrowserSupports }       from '#runtime/svelte/util';
+import { BrowserSupports }       from '#runtime/util/browser';
 
 import { TJSThemeEditor }        from '#standard/component';
 
-import {
-   TJSGameSettings,
-   TJSThemeStore }               from '#standard/store';
+import { TJSGameSettings }       from '#runtime/svelte/store/fvtt';
+
+import { TJSThemeStore }         from '#standard/store';
 
 import { cssVariables }          from './cssVariables.js';
 import { themeStoreConfig }      from './themeStoreConfig.js';

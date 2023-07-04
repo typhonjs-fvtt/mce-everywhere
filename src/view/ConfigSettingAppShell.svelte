@@ -4,7 +4,7 @@
    import { getContext }            from 'svelte';
 
    import { TJSApplicationShell }   from '#runtime/svelte/component/core';
-   import { debounce }              from '#runtime/svelte/util';
+   import { Timing }                from '#runtime/util';
 
    import { TJSSettingsEdit }       from '#standard/component';
 
@@ -25,7 +25,7 @@
    const position = application.position;
 
    // A debounced callback that serializes application state after 500-millisecond delay.
-   const storePosition = debounce(() => $stateStore = application.state.get(), 500);
+   const storePosition = Timing.debounce(() => $stateStore = application.state.get(), 500);
 
    // Reactive statement to invoke debounce callback on Position changes.
    $: storePosition($position);

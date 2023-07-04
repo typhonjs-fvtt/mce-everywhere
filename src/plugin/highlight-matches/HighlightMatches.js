@@ -1,4 +1,4 @@
-import { debounce }              from '#runtime/svelte/util';
+import { Timing }                from '#runtime/util';
 
 import { constants, settings }   from '../../constants.js';
 
@@ -8,7 +8,7 @@ export class HighlightMatches
    {
       let active = game.settings.get(constants.moduleId, settings.highlightDocumentMatches);
 
-      const debounced = debounce((event) =>
+      const debounced = Timing.debounce((event) =>
       {
          if (active) { this.#handleSelectionChange(event, editor); }
       }, 500);
