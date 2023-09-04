@@ -24,7 +24,7 @@ const s_SOURCEMAPS = true; // Generate sourcemaps for the bundle (recommended).
 // Used in bundling particularly during development. If you npm-link packages to your project add them here.
 const s_RESOLVE_CONFIG = {
    browser: true,
-   dedupe: ['svelte', '@typhonjs-fvtt/runtime', '@typhonjs-fvtt/svelte-standard', 'svelte-hmr']
+   dedupe: ['svelte', '@typhonjs-fvtt/runtime', '@typhonjs-fvtt/svelte-standard']
 };
 
 export default () =>
