@@ -2,7 +2,7 @@ import { BrowserSupports }       from '#runtime/util/browser';
 
 import { TJSThemeEditor }        from '#standard/component';
 
-import { TJSGameSettings }       from '#runtime/svelte/store/fvtt';
+import { TJSGameSettings }       from '#runtime/svelte/store/fvtt/settings';
 
 import { TJSThemeStore }         from '#standard/store';
 

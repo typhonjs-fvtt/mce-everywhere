@@ -54,7 +54,8 @@
 
 <div on:dragstart={onDragStart}
      draggable=true
-     title={localize('mce-everywhere.macro.button.title')}>
+     title={localize('mce-everywhere.macro.button.title')}
+     role=document>
    <img bind:this={imageEl}
         on:dragstart={onDragStart}
         draggable=true
