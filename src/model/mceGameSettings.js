@@ -1,9 +1,8 @@
 import { BrowserSupports }       from '#runtime/util/browser';
 
-import { TJSThemeEditor }        from '#standard/component';
-
 import { TJSGameSettings }       from '#runtime/svelte/store/fvtt/settings';
 
+import { TJSThemeEditor }        from '#standard/component/fvtt';
 import { TJSThemeStore }         from '#standard/store';
 
 import { cssVariables }          from './cssVariables.js';
