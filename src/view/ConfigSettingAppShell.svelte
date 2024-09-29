@@ -6,7 +6,7 @@
    import { TJSApplicationShell }   from '#runtime/svelte/component/core';
    import { Timing }                from '#runtime/util';
 
-   import { TJSSettingsEdit }       from '#standard/component/fvtt';
+   import { TJSSettingsEdit }       from '#standard/component/fvtt/settings';
 
    import SettingsFooter            from './SettingsFooter.svelte';
 
