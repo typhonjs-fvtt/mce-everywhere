@@ -1,4 +1,4 @@
-import { TJSStyleManager } from '#runtime/util/browser';
+import { TJSStyleManager } from '#runtime/util/dom/style';
 
 const cssVariables = new TJSStyleManager({ docKey: '#__mce-everywhere', version: 1 });
 
