@@ -3,7 +3,7 @@
 <script>
    import { getContext }            from 'svelte';
 
-   import { TJSApplicationShell }   from '#runtime/svelte/component/core';
+   import { TJSApplicationShell }   from '#runtime/svelte/component/application';
    import { Timing }                from '#runtime/util';
 
    import { TJSSettingsEdit }       from '#standard/component/fvtt/settings';
