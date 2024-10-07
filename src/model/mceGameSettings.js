@@ -1,9 +1,11 @@
 import { BrowserSupports }       from '#runtime/util/browser';
 
-import { TJSGameSettings }       from '#runtime/svelte/store/fvtt/settings';
 
 import { TJSThemeEditor }        from '#standard/component/fvtt/settings';
-import { TJSThemeStore }         from '#standard/store';
+
+import {
+   TJSGameSettingsWithUI,
+   TJSThemeStore }               from '#standard/store/fvtt/settings';
 
 import { cssVariables }          from './cssVariables.js';
 import { themeStoreConfig }      from './themeStoreConfig.js';
@@ -12,7 +14,7 @@ import { ConfigSettingButton }   from '../view/ConfigSettingButton.js';
 
 import { constants, settings }   from '../constants.js';
 
-class MceGameSettings extends TJSGameSettings
+class MceGameSettings extends TJSGameSettingsWithUI
 {
    #themeStore;
 
